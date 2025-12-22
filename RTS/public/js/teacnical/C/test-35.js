@@ -1,1105 +1,2099 @@
-const questions=[
-    {
-        "num": 1,
-        "question_en": "What is the purpose of the 'runtime.SetFinalizer' function?",
-        "question_hi": "'runtime.SetFinalizer' फंक्शन का उद्देश्य क्या है?",
-        "options_en": ["Register finalizer function for garbage collection", "Set object destructor", "Force garbage collection", "Manage memory manually"],
-        "options_hi": ["गार्बेज कलेक्शन के लिए फाइनलाइज़र फंक्शन रजिस्टर करना", "ऑब्जेक्ट डिस्ट्रक्टर सेट करना", "गार्बेज कलेक्शन फोर्स करना", "मेमोरी मैन्युअली मैनेज करना"],
-        "answer_en": "Register finalizer function for garbage collection",
-        "answer_hi": "गार्बेज कलेक्शन के लिए फाइनलाइज़र फंक्शन रजिस्टर करना",
-        "attempted": false,
-        "selected": ""
-    },
-    {
-        "num": 2,
-        "question_en": "How do you implement lock-free data structures using atomic operations?",
-        "question_hi": "एटॉमिक ऑपरेशन का उपयोग करके लॉक-फ्री डेटा स्ट्रक्चर कैसे इम्प्लीमेंट करते हैं?",
-        "options_en": ["Using sync/atomic package with CAS operations", "With mutex-free programming", "Using channel-based synchronization", "With runtime locks"],
-        "options_hi": ["CAS ऑपरेशन के साथ sync/atomic पैकेज का उपयोग करके", "म्यूटेक्स-फ्री प्रोग्रामिंग के साथ", "चैनल-बेस्ड सिंक्रोनाइज़ेशन का उपयोग करके", "रनटाइम लॉक के साथ"],
-        "answer_en": "Using sync/atomic package with CAS operations",
-        "answer_hi": "CAS ऑपरेशन के साथ sync/atomic पैकेज का उपयोग करके",
-        "attempted": false,
-        "selected": ""
-    },
-    {
-        "num": 3,
-        "question_en": "What is the purpose of the 'unsafe.Alignof' function?",
-        "question_hi": "'unsafe.Alignof' फंक्शन का उद्देश्य क्या है?",
-        "options_en": ["Get alignment requirement of a type", "Check memory alignment", "Align memory addresses", "Calculate padding bytes"],
-        "options_hi": ["टाइप की अलाइनमेंट रिक्वायरमेंट प्राप्त करना", "मेमोरी अलाइनमेंट चेक करना", "मेमोरी एड्रेस अलाइन करना", "पैडिंग बाइट कैलकुलेट करना"],
-        "answer_en": "Get alignment requirement of a type",
-        "answer_hi": "टाइप की अलाइनमेंट रिक्वायरमेंट प्राप्त करना",
-        "attempted": false,
-        "selected": ""
-    },
-    {
-        "num": 4,
-        "question_en": "How do you implement a read-preferring RW mutex?",
-        "question_hi": "रीड-प्रेफरिंग RW म्यूटेक्स कैसे इम्प्लीमेंट करते हैं?",
-        "options_en": ["Using sync.RWMutex with reader count", "With custom implementation using sync.Cond", "Using atomic operations for reader preference", "All of the above"],
-        "options_hi": ["रीडर काउंट के साथ sync.RWMutex का उपयोग करके", "sync.Cond का उपयोग करके कस्टम इम्प्लीमेंटेशन के साथ", "रीडर प्रेफरेंस के लिए एटॉमिक ऑपरेशन का उपयोग करके", "उपरोक्त सभी"],
-        "answer_en": "All of the above",
-        "answer_hi": "उपरोक्त सभी",
-        "attempted": false,
-        "selected": ""
-    },
-    {
-        "num": 5,
-        "question_en": "What is the purpose of the 'runtime.ReadMemStats' function?",
-        "question_hi": "'runtime.ReadMemStats' फंक्शन का उद्देश्य क्या है?",
-        "options_en": ["Read memory statistics and GC information", "Monitor heap usage", "Profile memory allocation", "All of the above"],
-        "options_hi": ["मेमोरी स्टैटिस्टिक्स और GC इनफार्मेशन रीड करना", "हीप यूसेज मॉनिटर करना", "मेमोरी अलोकेशन प्रोफाइल करना", "उपरोक्त सभी"],
-        "answer_en": "All of the above",
-        "answer_hi": "उपरोक्त सभी",
-        "attempted": false,
-        "selected": ""
-    },
-    {
-        "num": 6,
-        "question_en": "How do you implement zero-copy I/O using syscall package?",
-        "question_hi": "syscall पैकेज का उपयोग करके जीरो-कॉपी I/O कैसे इम्प्लीमेंट करते हैं?",
-        "options_en": ["Using sendfile system call", "With splice and tee operations", "Using memory mapping", "All of the above"],
-        "options_hi": ["sendfile सिस्टम कॉल का उपयोग करके", "splice और tee ऑपरेशन के साथ", "मेमोरी मैपिंग का उपयोग करके", "उपरोक्त सभी"],
-        "answer_en": "All of the above",
-        "answer_hi": "उपरोक्त सभी",
-        "attempted": false,
-        "selected": ""
-    },
-    {
-        "num": 7,
-        "question_en": "What is the purpose of the 'reflect.ChanDir' type?",
-        "question_hi": "'reflect.ChanDir' टाइप का उद्देश्य क्या है?",
-        "options_en": ["Represent channel direction in reflection", "Create channel directions", "Check channel capabilities", "Modify channel behavior"],
-        "options_hi": ["रिफ्लेक्शन में चैनल डायरेक्शन रिप्रेजेंट करना", "चैनल डायरेक्शन बनाना", "चैनल कैपेबिलिटी चेक करना", "चैनल बिहेवियर मोडिफाई करना"],
-        "answer_en": "Represent channel direction in reflection",
-        "answer_hi": "रिफ्लेक्शन में चैनल डायरेक्शन रिप्रेजेंट करना",
-        "attempted": false,
-        "selected": ""
-    },
-    {
-        "num": 8,
-        "question_en": "How do you implement custom garbage collection behavior?",
-        "question_hi": "कस्टम गार्बेज कलेक्शन बिहेवियर कैसे इम्प्लीमेंट करते हैं?",
-        "options_en": ["Using runtime.SetFinalizer", "With manual memory management", "Implementing object pools", "All of the above"],
-        "options_hi": ["runtime.SetFinalizer का उपयोग करके", "मैनुअल मेमोरी मैनेजमेंट के साथ", "ऑब्जेक्ट पूल इम्प्लीमेंट करके", "उपरोक्त सभी"],
-        "answer_en": "All of the above",
-        "answer_hi": "उपरोक्त सभी",
-        "attempted": false,
-        "selected": ""
-    },
-    {
-        "num": 9,
-        "question_en": "What is the purpose of the 'context.WithTimeoutCause' function?",
-        "question_hi": "'context.WithTimeoutCause' फंक्शन का उद्देश्य क्या है?",
-        "options_en": ["Create context with timeout and custom cause", "Set timeout with specific error", "Custom timeout handling", "All of the above"],
-        "options_hi": ["टाइमआउट और कस्टम कॉज के साथ कॉन्टेक्स्ट बनाना", "स्पेसिफिक एरर के साथ टाइमआउट सेट करना", "कस्टम टाइमआउट हैंडलिंग", "उपरोक्त सभी"],
-        "answer_en": "Create context with timeout and custom cause",
-        "answer_hi": "टाइमआउट और कस्टम कॉज के साथ कॉन्टेक्स्ट बनाना",
-        "attempted": false,
-        "selected": ""
-    },
-    {
-        "num": 10,
-        "question_en": "How do you implement efficient object pooling?",
-        "question_hi": "एफिशिएंट ऑब्जेक्ट पूलिंग कैसे इम्प्लीमेंट करते हैं?",
-        "options_en": ["Using sync.Pool with proper reset logic", "With manual allocation tracking", "Implementing free lists", "All of the above"],
-        "options_hi": ["प्रॉपर रीसेट लॉजिक के साथ sync.Pool का उपयोग करके", "मैनुअल अलोकेशन ट्रैकिंग के साथ", "फ्री लिस्ट इम्प्लीमेंट करके", "उपरोक्त सभी"],
-        "answer_en": "All of the above",
-        "answer_hi": "उपरोक्त सभी",
-        "attempted": false,
-        "selected": ""
-    },
-    {
-        "num": 11,
-        "question_en": "What is the purpose of the 'runtime.GOMAXPROCS' function?",
-        "question_hi": "'runtime.GOMAXPROCS' फंक्शन का उद्देश्य क्या है?",
-        "options_en": ["Set maximum number of CPUs for Go routines", "Control parallelism", "Limit concurrent execution", "All of the above"],
-        "options_hi": ["गो रूटीन के लिए मैक्सिमम CPU नंबर सेट करना", "पैरेललिज्म कंट्रोल करना", "कनकरेंट एक्सेक्यूशन लिमिट करना", "उपरोक्त सभी"],
-        "answer_en": "All of the above",
-        "answer_hi": "उपरोक्त सभी",
-        "attempted": false,
-        "selected": ""
-    },
-    {
-        "num": 12,
-        "question_en": "How do you implement lock-free ring buffer?",
-        "question_hi": "लॉक-फ्री रिंग बफर कैसे इम्प्लीमेंट करते हैं?",
-        "options_en": ["Using atomic operations for head/tail pointers", "With CAS-based algorithms", "Memory barriers for consistency", "All of the above"],
-        "options_hi": ["हेड/टेल पॉइंटर के लिए एटॉमिक ऑपरेशन का उपयोग करके", "CAS-बेस्ड एल्गोरिदम के साथ", "कंसिस्टेंसी के लिए मेमोरी बैरियर", "उपरोक्त सभी"],
-        "answer_en": "All of the above",
-        "answer_hi": "उपरोक्त सभी",
-        "attempted": false,
-        "selected": ""
-    },
-    {
-        "num": 13,
-        "question_en": "What is the purpose of the 'reflect.MakeFunc' function?",
-        "question_hi": "'reflect.MakeFunc' फंक्शन का उद्देश्य क्या है?",
-        "options_en": ["Create new function at runtime", "Dynamic function generation", "Implement function proxies", "All of the above"],
-        "options_hi": ["रनटाइम पर नया फंक्शन बनाना", "डायनामिक फंक्शन जनरेशन", "फंक्शन प्रॉक्सी इम्प्लीमेंट करना", "उपरोक्त सभी"],
-        "answer_en": "All of the above",
-        "answer_hi": "उपरोक्त सभी",
-        "attempted": false,
-        "selected": ""
-    },
-    {
-        "num": 14,
-        "question_en": "How do you implement efficient string concatenation?",
-        "question_hi": "एफिशिएंट स्ट्रिंग कॉन्कटेनेशन कैसे इम्प्लीमेंट करते हैं?",
-        "options_en": ["Using strings.Builder for multiple appends", "With bytes.Buffer and string conversion", "Pre-allocate with make([]byte, size)", "All of the above"],
-        "options_hi": ["मल्टीपल ऐपेंड के लिए strings.Builder का उपयोग करके", "bytes.Buffer और स्ट्रिंग कन्वर्जन के साथ", "make([]byte, size) के साथ प्री-अलोकेट करके", "उपरोक्त सभी"],
-        "answer_en": "All of the above",
-        "answer_hi": "उपरोक्त सभी",
-        "attempted": false,
-        "selected": ""
-    },
-    {
-        "num": 15,
-        "question_en": "What is the purpose of the 'runtime.Caller' function?",
-        "question_hi": "'runtime.Caller' फंक्शन का उद्देश्य क्या है?",
-        "options_en": ["Get caller's program counter and file info", "Stack trace inspection", "Debug information", "All of the above"],
-        "options_hi": ["कॉलर का प्रोग्राम काउंटर और फाइल इनफो प्राप्त करना", "स्टैक ट्रेस इंस्पेक्शन", "डीबग इनफार्मेशन", "उपरोक्त सभी"],
-        "answer_en": "All of the above",
-        "answer_hi": "उपरोक्त सभी",
-        "attempted": false,
-        "selected": ""
-    },
-    {
-        "num": 16,
-        "question_en": "How do you implement custom memory allocator?",
-        "question_hi": "कस्टम मेमोरी अलोकेटर कैसे इम्प्लीमेंट करते हैं?",
-        "options_en": ["Using unsafe.Pointer and manual management", "With arena-based allocation", "Implementing slab allocator", "All of the above"],
-        "options_hi": ["unsafe.Pointer और मैनुअल मैनेजमेंट का उपयोग करके", "एरिना-बेस्ड अलोकेशन के साथ", "स्लैब अलोकेटर इम्प्लीमेंट करके", "उपरोक्त सभी"],
-        "answer_en": "All of the above",
-        "answer_hi": "उपरोक्त सभी",
-        "attempted": false,
-        "selected": ""
-    },
-    {
-        "num": 17,
-        "question_en": "What is the purpose of the 'sync.Once' type?",
-        "question_hi": "'sync.Once' टाइप का उद्देश्य क्या है?",
-        "options_en": ["Ensure function executes only once", "Thread-safe initialization", "Lazy initialization pattern", "All of the above"],
-        "options_hi": ["फंक्शन केवल एक बार एक्सेक्यूट हो यह सुनिश्चित करना", "थ्रेड-सेफ इनिशियलाइज़ेशन", "लेज़ी इनिशियलाइज़ेशन पैटर्न", "उपरोक्त सभी"],
-        "answer_en": "All of the above",
-        "answer_hi": "उपरोक्त सभी",
-        "attempted": false,
-        "selected": ""
-    },
-    {
-        "num": 18,
-        "question_en": "How do you implement backpressure in channel pipelines?",
-        "question_hi": "चैनल पाइपलाइन में बैकप्रेशर कैसे इम्प्लीमेंट करते हैं?",
-        "options_en": ["Using buffered channels with size limits", "With select and default cases", "Implementing token bucket", "All of the above"],
-        "options_hi": ["साइज लिमिट के साथ बफर्ड चैनल का उपयोग करके", "select और default केस के साथ", "टोकन बकेट इम्प्लीमेंट करके", "उपरोक्त सभी"],
-        "answer_en": "All of the above",
-        "answer_hi": "उपरोक्त सभी",
-        "attempted": false,
-        "selected": ""
-    },
-    {
-        "num": 19,
-        "question_en": "What is the purpose of the 'runtime.FuncForPC' function?",
-        "question_hi": "'runtime.FuncForPC' फंक्शन का उद्देश्य क्या है?",
-        "options_en": ["Get function information from program counter", "Function metadata lookup", "Debug symbol resolution", "All of the above"],
-        "options_hi": ["प्रोग्राम काउंटर से फंक्शन इनफार्मेशन प्राप्त करना", "फंक्शन मेटाडेटा लुकअप", "डीबग सिंबल रेजोल्यूशन", "उपरोक्त सभी"],
-        "answer_en": "All of the above",
-        "answer_hi": "उपरोक्त सभी",
-        "attempted": false,
-        "selected": ""
-    },
-    {
-        "num": 20,
-        "question_en": "How do you implement efficient concurrent maps?",
-        "question_hi": "एफिशिएंट कनकरेंट मैप कैसे इम्प्लीमेंट करते हैं?",
-        "options_en": ["Using sync.Map for read-heavy workloads", "With sharded mutex-protected maps", "Implementing lock-free hash tables", "All of the above"],
-        "options_hi": ["रीड-हैवी वर्कलोड के लिए sync.Map का उपयोग करके", "शार्डेड म्यूटेक्स-प्रोटेक्टेड मैप के साथ", "लॉक-फ्री हैश टेबल इम्प्लीमेंट करके", "उपरोक्त सभी"],
-        "answer_en": "All of the above",
-        "answer_hi": "उपरोक्त सभी",
-        "attempted": false,
-        "selected": ""
-    },
-    {
-        "num": 21,
-        "question_en": "What is the purpose of the 'context.AfterFunc' function?",
-        "question_hi": "'context.AfterFunc' फंक्शन का उद्देश्य क्या है?",
-        "options_en": ["Register function to run after context cancellation", "Post-cancellation cleanup", "Deferred context operations", "All of the above"],
-        "options_hi": ["कॉन्टेक्स्ट कैंसलेशन के बाद रन होने वाला फंक्शन रजिस्टर करना", "पोस्ट-कैंसलेशन क्लीनअप", "डिफर्ड कॉन्टेक्स्ट ऑपरेशन", "उपरोक्त सभी"],
-        "answer_en": "All of the above",
-        "answer_hi": "उपरोक्त सभी",
-        "attempted": false,
-        "selected": ""
-    },
-    {
-        "num": 22,
-        "question_en": "How do you implement graceful shutdown?",
-        "question_hi": "ग्रेसफुल शटडाउन कैसे इम्प्लीमेंट करते हैं?",
-        "options_en": ["Using context cancellation and WaitGroup", "With signal handling and cleanup", "Implementing shutdown channels", "All of the above"],
-        "options_hi": ["कॉन्टेक्स्ट कैंसलेशन और WaitGroup का उपयोग करके", "सिग्नल हैंडलिंग और क्लीनअप के साथ", "शटडाउन चैनल इम्प्लीमेंट करके", "उपरोक्त सभी"],
-        "answer_en": "All of the above",
-        "answer_hi": "उपरोक्त सभी",
-        "attempted": false,
-        "selected": ""
-    },
-    {
-        "num": 23,
-        "question_en": "What is the purpose of the 'runtime.Stack' function?",
-        "question_hi": "'runtime.Stack' फंक्शन का उद्देश्य क्या है?",
-        "options_en": ["Get current goroutine's stack trace", "Debug stack information", "Profile stack usage", "All of the above"],
-        "options_hi": ["करंट गोरूटीन का स्टैक ट्रेस प्राप्त करना", "डीबग स्टैक इनफार्मेशन", "स्टैक यूसेज प्रोफाइल करना", "उपरोक्त सभी"],
-        "answer_en": "All of the above",
-        "answer_hi": "उपरोक्त सभी",
-        "attempted": false,
-        "selected": ""
-    },
-    {
-        "num": 24,
-        "question_en": "How do you implement circuit breaker pattern?",
-        "question_hi": "सर्किट ब्रेकर पैटर्न कैसे इम्प्लीमेंट करते हैं?",
-        "options_en": ["Using state machine with failure counting", "With timeout and backoff strategies", "Implementing health checks", "All of the above"],
-        "options_hi": ["फेलियर काउंटिंग के साथ स्टेट मशीन का उपयोग करके", "टाइमआउट और बैकऑफ स्ट्रैटेजी के साथ", "हेल्थ चेक इम्प्लीमेंट करके", "उपरोक्त सभी"],
-        "answer_en": "All of the above",
-        "answer_hi": "उपरोक्त सभी",
-        "attempted": false,
-        "selected": ""
-    },
-    {
-        "num": 25,
-        "question_en": "What is the purpose of the 'reflect.Swapper' function?",
-        "question_hi": "'reflect.Swapper' फंक्शन का उद्देश्य क्या है?",
-        "options_en": ["Create function to swap slice elements", "Generic element swapping", "Reflection-based swapping", "All of the above"],
-        "options_hi": ["स्लाइस एलिमेंट स्वैप करने के लिए फंक्शन बनाना", "जेनरिक एलिमेंट स्वैपिंग", "रिफ्लेक्शन-बेस्ड स्वैपिंग", "उपरोक्त सभी"],
-        "answer_en": "All of the above",
-        "answer_hi": "उपरोक्त सभी",
-        "attempted": false,
-        "selected": ""
-    },
-    {
-        "num": 26,
-        "question_en": "How do you implement efficient JSON parsing?",
-        "question_hi": "एफिशिएंट JSON पार्सिंग कैसे इम्प्लीमेंट करते हैं?",
-        "options_en": ["Using json.RawMessage for lazy parsing", "With streaming json.Decoder", "Implementing custom unmarshalers", "All of the above"],
-        "options_hi": ["लेज़ी पार्सिंग के लिए json.RawMessage का उपयोग करके", "स्ट्रीमिंग json.Decoder के साथ", "कस्टम अनमार्शलर इम्प्लीमेंट करके", "उपरोक्त सभी"],
-        "answer_en": "All of the above",
-        "answer_hi": "उपरोक्त सभी",
-        "attempted": false,
-        "selected": ""
-    },
-    {
-        "num": 27,
-        "question_en": "What is the purpose of the 'runtime.MemProfileRate' variable?",
-        "question_hi": "'runtime.MemProfileRate' वेरिएबल का उद्देश्य क्या है?",
-        "options_en": ["Control memory profiling sampling rate", "Set allocation tracking frequency", "Configure memory profile granularity", "All of the above"],
-        "options_hi": ["मेमोरी प्रोफाइलिंग सैंपलिंग रेट कंट्रोल करना", "अलोकेशन ट्रैकिंग फ्रीक्वेंसी सेट करना", "मेमोरी प्रोफाइल ग्रैन्युलैरिटी कॉन्फिगर करना", "उपरोक्त सभी"],
-        "answer_en": "All of the above",
-        "answer_hi": "उपरोक्त सभी",
-        "attempted": false,
-        "selected": ""
-    },
-    {
-        "num": 28,
-        "question_en": "How do you implement connection pooling?",
-        "question_hi": "कनेक्शन पूलिंग कैसे इम्प्लीमेंट करते हैं?",
-        "options_en": ["Using sync.Pool for lightweight connections", "With channel-based pool management", "Implementing health checks and timeouts", "All of the above"],
-        "options_hi": ["लाइटवेट कनेक्शन के लिए sync.Pool का उपयोग करके", "चैनल-बेस्ड पूल मैनेजमेंट के साथ", "हेल्थ चेक और टाइमआउट इम्प्लीमेंट करके", "उपरोक्त सभी"],
-        "answer_en": "All of the above",
-        "answer_hi": "उपरोक्त सभी",
-        "attempted": false,
-        "selected": ""
-    },
-    {
-        "num": 29,
-        "question_en": "What is the purpose of the 'unsafe.Offsetof' function?",
-        "question_hi": "'unsafe.Offsetof' फंक्शन का उद्देश्य क्या है?",
-        "options_en": ["Get field offset within struct", "Calculate memory layout", "Low-level struct manipulation", "All of the above"],
-        "options_hi": ["स्ट्रक्चर के भीतर फील्ड ऑफसेट प्राप्त करना", "मेमोरी लेआउट कैलकुलेट करना", "लो-लेवल स्ट्रक्चर मैनिपुलेशन", "उपरोक्त सभी"],
-        "answer_en": "All of the above",
-        "answer_hi": "उपरोक्त सभी",
-        "attempted": false,
-        "selected": ""
-    },
-    {
-        "num": 30,
-        "question_en": "How do you implement rate limiting?",
-        "question_hi": "रेट लिमिटिंग कैसे इम्प्लीमेंट करते हैं?",
-        "options_en": ["Using token bucket algorithm", "With sliding window counters", "Implementing leaky bucket", "All of the above"],
-        "options_hi": ["टोकन बकेट एल्गोरिदम का उपयोग करके", "स्लाइडिंग विंडो काउंटर के साथ", "लीकी बकेट इम्प्लीमेंट करके", "उपरोक्त सभी"],
-        "answer_en": "All of the above",
-        "answer_hi": "उपरोक्त सभी",
-        "attempted": false,
-        "selected": ""
-    },
-    {
-        "num": 31,
-        "question_en": "What is the purpose of the 'runtime.SetBlockProfileRate' function?",
-        "question_hi": "'runtime.SetBlockProfileRate' फंक्शन का उद्देश्य क्या है?",
-        "options_en": ["Control blocking profile sampling rate", "Set goroutine blocking tracking", "Configure block profile granularity", "All of the above"],
-        "options_hi": ["ब्लॉकिंग प्रोफाइल सैंपलिंग रेट कंट्रोल करना", "गोरूटीन ब्लॉकिंग ट्रैकिंग सेट करना", "ब्लॉक प्रोफाइल ग्रैन्युलैरिटी कॉन्फिगर करना", "उपरोक्त सभी"],
-        "answer_en": "All of the above",
-        "answer_hi": "उपरोक्त सभी",
-        "attempted": false,
-        "selected": ""
-    },
-    {
-        "num": 32,
-        "question_en": "How do you implement distributed tracing?",
-        "question_hi": "डिस्ट्रीब्यूटेड ट्रेसिंग कैसे इम्प्लीमेंट करते हैं?",
-        "options_en": ["Using context propagation with trace IDs", "With OpenTelemetry integration", "Implementing span creation and propagation", "All of the above"],
-        "options_hi": ["ट्रेस ID के साथ कॉन्टेक्स्ट प्रोपेगेशन का उपयोग करके", "OpenTelemetry इंटीग्रेशन के साथ", "स्पैन क्रिएशन और प्रोपेगेशन इम्प्लीमेंट करके", "उपरोक्त सभी"],
-        "answer_en": "All of the above",
-        "answer_hi": "उपरोक्त सभी",
-        "attempted": false,
-        "selected": ""
-    },
-    {
-        "num": 33,
-        "question_en": "What is the purpose of the 'reflect.Select' function?",
-        "question_hi": "'reflect.Select' फंक्शन का उद्देश्य क्या है?",
-        "options_en": ["Dynamic select statement execution", "Reflection-based channel selection", "Runtime channel operations", "All of the above"],
-        "options_hi": ["डायनामिक select स्टेटमेंट एक्सेक्यूशन", "रिफ्लेक्शन-बेस्ड चैनल सिलेक्शन", "रनटाइम चैनल ऑपरेशन", "उपरोक्त सभी"],
-        "answer_en": "All of the above",
-        "answer_hi": "उपरोक्त सभी",
-        "attempted": false,
-        "selected": ""
-    },
-    {
-        "num": 34,
-        "question_en": "How do you implement memory-mapped files?",
-        "question_hi": "मेमोरी-मैप्ड फाइल कैसे इम्प्लीमेंट करते हैं?",
-        "options_en": ["Using syscall.Mmap for file mapping", "With manual memory management", "Implementing page-aligned access", "All of the above"],
-        "options_hi": ["फाइल मैपिंग के लिए syscall.Mmap का उपयोग करके", "मैनुअल मेमोरी मैनेजमेंट के साथ", "पेज-अलाइंड एक्सेस इम्प्लीमेंट करके", "उपरोक्त सभी"],
-        "answer_en": "All of the above",
-        "answer_hi": "उपरोक्त सभी",
-        "attempted": false,
-        "selected": ""
-    },
-    {
-        "num": 35,
-        "question_en": "What is the purpose of the 'runtime.NumCPU' function?",
-        "question_hi": "'runtime.NumCPU' फंक्शन का उद्देश्य क्या है?",
-        "options_en": ["Get number of logical CPUs", "Detect available parallelism", "Configure worker pools", "All of the above"],
-        "options_hi": ["लॉजिकल CPU की संख्या प्राप्त करना", "उपलब्ध पैरेललिज्म डिटेक्ट करना", "वर्कर पूल कॉन्फिगर करना", "उपरोक्त सभी"],
-        "answer_en": "All of the above",
-        "answer_hi": "उपरोक्त सभी",
-        "attempted": false,
-        "selected": ""
-    },
-    {
-        "num": 36,
-        "question_en": "How do you implement bloom filters?",
-        "question_hi": "ब्लूम फिल्टर कैसे इम्प्लीमेंट करते हैं?",
-        "options_en": ["Using multiple hash functions with bit array", "With probabilistic membership testing", "Implementing space-efficient sets", "All of the above"],
-        "options_hi": ["बिट ऐरे के साथ मल्टीपल हैश फंक्शन का उपयोग करके", "प्रोबेबिलिस्टिक मेंबरशिप टेस्टिंग के साथ", "स्पेस-एफिशिएंट सेट इम्प्लीमेंट करके", "उपरोक्त सभी"],
-        "answer_en": "All of the above",
-        "answer_hi": "उपरोक्त सभी",
-        "attempted": false,
-        "selected": ""
-    },
-    {
-        "num": 37,
-        "question_en": "What is the purpose of the 'sync.Cond' type?",
-        "question_hi": "'sync.Cond' टाइप का उद्देश्य क्या है?",
-        "options_en": ["Condition variable for goroutine synchronization", "Broadcast and signal waiting goroutines", "Complex synchronization patterns", "All of the above"],
-        "options_hi": ["गोरूटीन सिंक्रोनाइज़ेशन के लिए कंडीशन वेरिएबल", "वेटिंग गोरूटीन को ब्रॉडकास्ट और सिग्नल करना", "कॉम्प्लेक्स सिंक्रोनाइज़ेशन पैटर्न", "उपरोक्त सभी"],
-        "answer_en": "All of the above",
-        "answer_hi": "उपरोक्त सभी",
-        "attempted": false,
-        "selected": ""
-    },
-    {
-        "num": 38,
-        "question_en": "How do you implement worker pools with dynamic scaling?",
-        "question_hi": "डायनामिक स्केलिंग के साथ वर्कर पूल कैसे इम्प्लीमेंट करते हैं?",
-        "options_en": ["Using buffered channels and dynamic goroutine creation", "With work stealing algorithms", "Implementing load-based scaling", "All of the above"],
-        "options_hi": ["बफर्ड चैनल और डायनामिक गोरूटीन क्रिएशन का उपयोग करके", "वर्क स्टीलिंग एल्गोरिदम के साथ", "लोड-बेस्ड स्केलिंग इम्प्लीमेंट करके", "उपरोक्त सभी"],
-        "answer_en": "All of the above",
-        "answer_hi": "उपरोक्त सभी",
-        "attempted": false,
-        "selected": ""
-    },
-    {
-        "num": 39,
-        "question_en": "What is the purpose of the 'runtime.LockOSThread' function?",
-        "question_hi": "'runtime.LockOSThread' फंक्शन का उद्देश्य क्या है?",
-        "options_en": ["Bind goroutine to OS thread", "Thread-local storage requirements", "GUI and system call compatibility", "All of the above"],
-        "options_hi": ["गोरूटीन को OS थ्रेड से बाइंड करना", "थ्रेड-लोकल स्टोरेज रिक्वायरमेंट", "GUI और सिस्टम कॉल कम्पेटिबिलिटी", "उपरोक्त सभी"],
-        "answer_en": "All of the above",
-        "answer_hi": "उपरोक्त सभी",
-        "attempted": false,
-        "selected": ""
-    },
-    {
-        "num": 40,
-        "question_en": "How do you implement content-addressable storage?",
-        "question_hi": "कंटेंट-एड्रेसेबल स्टोरेज कैसे इम्प्लीमेंट करते हैं?",
-        "options_en": ["Using cryptographic hashes as keys", "With deduplication based on content hash", "Implementing hash-based storage systems", "All of the above"],
-        "options_hi": ["क्रिप्टोग्राफिक हैश को की के रूप में उपयोग करके", "कंटेंट हैश के आधार पर डीडुप्लिकेशन के साथ", "हैश-बेस्ड स्टोरेज सिस्टम इम्प्लीमेंट करके", "उपरोक्त सभी"],
-        "answer_en": "All of the above",
-        "answer_hi": "उपरोक्त सभी",
-        "attempted": false,
-        "selected": ""
-    },
-    {
-        "num": 41,
-        "question_en": "What is the purpose of the 'reflect.VisibleFields' function?",
-        "question_hi": "'reflect.VisibleFields' फंक्शन का उद्देश्य क्या है?",
-        "options_en": ["Get all visible fields of struct including embedded", "Comprehensive field inspection", "Reflection-based struct analysis", "All of the above"],
-        "options_hi": ["एम्बेडेड सहित स्ट्रक्चर के सभी विजिबल फील्ड प्राप्त करना", "कम्प्रिहेंसिव फील्ड इंस्पेक्शन", "रिफ्लेक्शन-बेस्ड स्ट्रक्चर एनालिसिस", "उपरोक्त सभी"],
-        "answer_en": "All of the above",
-        "answer_hi": "उपरोक्त सभी",
-        "attempted": false,
-        "selected": ""
-    },
-    {
-        "num": 42,
-        "question_en": "How do you implement vector clocks?",
-        "question_hi": "वेक्टर क्लॉक कैसे इम्प्लीमेंट करते हैं?",
-        "options_en": ["Using map of node IDs to counters", "With causal ordering detection", "Implementing distributed version vectors", "All of the above"],
-        "options_hi": ["काउंटर के लिए नोड ID के मैप का उपयोग करके", "कॉज़ल ऑर्डरिंग डिटेक्शन के साथ", "डिस्ट्रीब्यूटेड वर्जन वेक्टर इम्प्लीमेंट करके", "उपरोक्त सभी"],
-        "answer_en": "All of the above",
-        "answer_hi": "उपरोक्त सभी",
-        "attempted": false,
-        "selected": ""
-    },
-    {
-        "num": 43,
-        "question_en": "What is the purpose of the 'runtime.StartTrace' function?",
-        "question_hi": "'runtime.StartTrace' फंक्शन का उद्देश्य क्या है?",
-        "options_en": ["Start execution tracing", "Capture runtime events", "Performance analysis", "All of the above"],
-        "options_hi": ["एक्सेक्यूशन ट्रेसिंग स्टार्ट करना", "रनटाइम इवेंट कैप्चर करना", "परफॉर्मेंस एनालिसिस", "उपरोक्त सभी"],
-        "answer_en": "All of the above",
-        "answer_hi": "उपरोक्त सभी",
-        "attempted": false,
-        "selected": ""
-    },
-    {
-        "num": 44,
-        "question_en": "How do you implement consistent hashing?",
-        "question_hi": "कंसिस्टेंट हैशिंग कैसे इम्प्लीमेंट करते हैं?",
-        "options_en": ["Using ring of virtual nodes", "With minimal disruption on node changes", "Implementing distributed hash tables", "All of the above"],
-        "options_hi": ["वर्चुअल नोड के रिंग का उपयोग करके", "नोड चेंज पर मिनिमल डिसरप्शन के साथ", "डिस्ट्रीब्यूटेड हैश टेबल इम्प्लीमेंट करके", "उपरोक्त सभी"],
-        "answer_en": "All of the above",
-        "answer_hi": "उपरोक्त सभी",
-        "attempted": false,
-        "selected": ""
-    },
-    {
-        "num": 45,
-        "question_en": "What is the purpose of the 'unsafe.Slice' function?",
-        "question_hi": "'unsafe.Slice' फंक्शन का उद्देश्य क्या है?",
-        "options_en": ["Create slice from pointer and length", "Low-level slice construction", "Memory region to slice conversion", "All of the above"],
-        "options_hi": ["पॉइंटर और लेंथ से स्लाइस बनाना", "लो-लेवल स्लाइस कंस्ट्रक्शन", "मेमोरी रीजन को स्लाइस में कन्वर्जन", "उपरोक्त सभी"],
-        "answer_en": "All of the above",
-        "answer_hi": "उपरोक्त सभी",
-        "attempted": false,
-        "selected": ""
-    },
-    {
-        "num": 46,
-        "question_en": "How do you implement distributed locks?",
-        "question_hi": "डिस्ट्रीब्यूटेड लॉक कैसे इम्प्लीमेंट करते हैं?",
-        "options_en": ["Using Redis or etcd with lease mechanisms", "With consensus algorithms", "Implementing leader election", "All of the above"],
-        "options_hi": ["लीज मैकेनिज्म के साथ Redis या etcd का उपयोग करके", "कंसेंसस एल्गोरिदम के साथ", "लीडर इलेक्शन इम्प्लीमेंट करके", "उपरोक्त सभी"],
-        "answer_en": "All of the above",
-        "answer_hi": "उपरोक्त सभी",
-        "attempted": false,
-        "selected": ""
-    },
-    {
-        "num": 47,
-        "question_en": "What is the purpose of the 'runtime.GC' function?",
-        "question_hi": "'runtime.GC' फंक्शन का उद्देश्य क्या है?",
-        "options_en": ["Trigger garbage collection manually", "Force memory cleanup", "Performance testing", "All of the above"],
-        "options_hi": ["गार्बेज कलेक्शन मैन्युअली ट्रिगर करना", "मेमोरी क्लीनअप फोर्स करना", "परफॉर्मेंस टेस्टिंग", "उपरोक्त सभी"],
-        "answer_en": "All of the above",
-        "answer_hi": "उपरोक्त सभी",
-        "attempted": false,
-        "selected": ""
-    },
-    {
-        "num": 48,
-        "question_en": "How do you implement write-ahead logging?",
-        "question_hi": "राइट-अहेड लॉगिंग कैसे इम्प्लीमेंट करते हैं?",
-        "options_en": ["Using append-only log files", "With crash recovery mechanisms", "Implementing transaction logging", "All of the above"],
-        "options_hi": ["ऐपेंड-ओनली लॉग फाइल का उपयोग करके", "क्रैश रिकवरी मैकेनिज्म के साथ", "ट्रांजैक्शन लॉगिंग इम्प्लीमेंट करके", "उपरोक्त सभी"],
-        "answer_en": "All of the above",
-        "answer_hi": "उपरोक्त सभी",
-        "attempted": false,
-        "selected": ""
-    },
-    {
-        "num": 49,
-        "question_en": "What is the purpose of the 'reflect.Value.Convert' method?",
-        "question_hi": "'reflect.Value.Convert' मेथड का उद्देश्य क्या है?",
-        "options_en": ["Convert value to different type in reflection", "Type conversion at runtime", "Reflection-based type casting", "All of the above"],
-        "options_hi": ["रिफ्लेक्शन में वैल्यू को अलग टाइप में कन्वर्ट करना", "रनटाइम पर टाइप कन्वर्जन", "रिफ्लेक्शन-बेस्ड टाइप कास्टिंग", "उपरोक्त सभी"],
-        "answer_en": "All of the above",
-        "answer_hi": "उपरोक्त सभी",
-        "attempted": false,
-        "selected": ""
-    },
-    {
-        "num": 50,
-        "question_en": "How do you implement CRDTs (Conflict-free Replicated Data Types)?",
-        "question_hi": "CRDT (कनफ्लिक्ट-फ्री रेप्लिकेटेड डेटा टाइप) कैसे इम्प्लीमेंट करते हैं?",
-        "options_en": ["Using state-based or operation-based approaches", "With mergeable data structures", "Implementing eventually consistent types", "All of the above"],
-        "options_hi": ["स्टेट-बेस्ड या ऑपरेशन-बेस्ड एप्रोच का उपयोग करके", "मर्जेबल डेटा स्ट्रक्चर के साथ", "इवेंचुअली कंसिस्टेंट टाइप इम्प्लीमेंट करके", "उपरोक्त सभी"],
-        "answer_en": "All of the above",
-        "answer_hi": "उपरोक्त सभी",
-        "attempted": false,
-        "selected": ""
-    },
-    {
-        "num": 51,
-        "question_en": "What is the purpose of the 'runtime.KeepAlive' function?",
-        "question_hi": "'runtime.KeepAlive' फंक्शन का उद्देश्य क्या है?",
-        "options_en": ["Prevent garbage collection of value", "Extend object lifetime", "Manual memory management aid", "All of the above"],
-        "options_hi": ["वैल्यू का गार्बेज कलेक्शन रोकना", "ऑब्जेक्ट लाइफटाइम एक्सटेंड करना", "मैनुअल मेमोरी मैनेजमेंट एड", "उपरोक्त सभी"],
-        "answer_en": "All of the above",
-        "answer_hi": "उपरोक्त सभी",
-        "attempted": false,
-        "selected": ""
-    },
-    {
-        "num": 52,
-        "question_en": "How do you implement stream processing?",
-        "question_hi": "स्ट्रीम प्रोसेसिंग कैसे इम्प्लीमेंट करते हैं?",
-        "options_en": ["Using channel pipelines with stages", "With windowing and aggregation", "Implementing backpressure handling", "All of the above"],
-        "options_hi": ["स्टेज के साथ चैनल पाइपलाइन का उपयोग करके", "विंडोइंग और एग्रीगेशन के साथ", "बैकप्रेशर हैंडलिंग इम्प्लीमेंट करके", "उपरोक्त सभी"],
-        "answer_en": "All of the above",
-        "answer_hi": "उपरोक्त सभी",
-        "attempted": false,
-        "selected": ""
-    },
-    {
-        "num": 53,
-        "question_en": "What is the purpose of the 'reflect.Type.Implements' method?",
-        "question_hi": "'reflect.Type.Implements' मेथड का उद्देश्य क्या है?",
-        "options_en": ["Check if type implements interface", "Runtime interface compliance check", "Reflection-based interface verification", "All of the above"],
-        "options_hi": ["चेक करना कि टाइप इंटरफेस इम्प्लीमेंट करता है या नहीं", "रनटाइम इंटरफेस कम्प्लायंस चेक", "रिफ्लेक्शन-बेस्ड इंटरफेस वेरिफिकेशन", "उपरोक्त सभी"],
-        "answer_en": "All of the above",
-        "answer_hi": "उपरोक्त सभी",
-        "attempted": false,
-        "selected": ""
-    },
-    {
-        "num": 54,
-        "question_en": "How do you implement consensus algorithms?",
-        "question_hi": "कंसेंसस एल्गोरिदम कैसे इम्प्लीमेंट करते हैं?",
-        "options_en": ["Using Raft or Paxos implementations", "With leader election and log replication", "Implementing distributed state machines", "All of the above"],
-        "options_hi": ["Raft या Paxos इम्प्लीमेंटेशन का उपयोग करके", "लीडर इलेक्शन और लॉग रेप्लिकेशन के साथ", "डिस्ट्रीब्यूटेड स्टेट मशीन इम्प्लीमेंट करके", "उपरोक्त सभी"],
-        "answer_en": "All of the above",
-        "answer_hi": "उपरोक्त सभी",
-        "attempted": false,
-        "selected": ""
-    },
-    {
-        "num": 55,
-        "question_en": "What is the purpose of the 'runtime.SetCPUProfileRate' function?",
-        "question_hi": "'runtime.SetCPUProfileRate' फंक्शन का उद्देश्य क्या है?",
-        "options_en": ["Set CPU profiling sampling rate", "Control profile granularity", "Configure performance monitoring", "All of the above"],
-        "options_hi": ["CPU प्रोफाइलिंग सैंपलिंग रेट सेट करना", "प्रोफाइल ग्रैन्युलैरिटी कंट्रोल करना", "परफॉर्मेंस मॉनिटरिंग कॉन्फिगर करना", "उपरोक्त सभी"],
-        "answer_en": "All of the above",
-        "answer_hi": "उपरोक्त सभी",
-        "attempted": false,
-        "selected": ""
-    },
-    {
-        "num": 56,
-        "question_en": "How do you implement geospatial indexing?",
-        "question_hi": "जियोस्पेशियल इंडेक्सिंग कैसे इम्प्लीमेंट करते हैं?",
-        "options_en": ["Using geohash or quadtree structures", "With spatial partitioning algorithms", "Implementing location-based queries", "All of the above"],
-        "options_hi": ["जियोहैश या क्वाडट्री स्ट्रक्चर का उपयोग करके", "स्पेशियल पार्टिशनिंग एल्गोरिदम के साथ", "लोकेशन-बेस्ड क्वेरी इम्प्लीमेंट करके", "उपरोक्त सभी"],
-        "answer_en": "All of the above",
-        "answer_hi": "उपरोक्त सभी",
-        "attempted": false,
-        "selected": ""
-    },
-    {
-        "num": 57,
-        "question_en": "What is the purpose of the 'unsafe.String' function?",
-        "question_hi": "'unsafe.String' फंक्शन का उद्देश्य क्या है?",
-        "options_en": ["Create string from byte pointer and length", "Low-level string construction", "Memory to string conversion", "All of the above"],
-        "options_hi": ["बाइट पॉइंटर और लेंथ से स्ट्रिंग बनाना", "लो-लेवल स्ट्रिंग कंस्ट्रक्शन", "मेमोरी को स्ट्रिंग में कन्वर्जन", "उपरोक्त सभी"],
-        "answer_en": "All of the above",
-        "answer_hi": "उपरोक्त सभी",
-        "attempted": false,
-        "selected": ""
-    },
-    {
-        "num": 58,
-        "question_en": "How do you implement time series databases?",
-        "question_hi": "टाइम सीरीज डेटाबेस कैसे इम्प्लीमेंट करते हैं?",
-        "options_en": ["Using columnar storage with compression", "With time-based partitioning", "Implementing rollup and aggregation", "All of the above"],
-        "options_hi": ["कम्प्रेशन के साथ कॉलमनर स्टोरेज का उपयोग करके", "टाइम-बेस्ड पार्टिशनिंग के साथ", "रोलअप और एग्रीगेशन इम्प्लीमेंट करके", "उपरोक्त सभी"],
-        "answer_en": "All of the above",
-        "answer_hi": "उपरोक्त सभी",
-        "attempted": false,
-        "selected": ""
-    },
-    {
-        "num": 59,
-        "question_en": "What is the purpose of the 'reflect.Value.TryRecv' method?",
-        "question_hi": "'reflect.Value.TryRecv' मेथड का उद्देश्य क्या है?",
-        "options_en": ["Non-blocking channel receive in reflection", "Check channel readiness", "Reflection-based channel polling", "All of the above"],
-        "options_hi": ["रिफ्लेक्शन में नॉन-ब्लॉकिंग चैनल रिसीव", "चैनल रेडीनेस चेक करना", "रिफ्लेक्शन-बेस्ड चैनल पोलिंग", "उपरोक्त सभी"],
-        "answer_en": "All of the above",
-        "answer_hi": "उपरोक्त सभी",
-        "attempted": false,
-        "selected": ""
-    },
-    {
-        "num": 60,
-        "question_en": "How do you implement machine learning inference?",
-        "question_hi": "मशीन लर्निंग इनफरेंस कैसे इम्प्लीमेंट करते हैं?",
-        "options_en": ["Using ONNX runtime bindings", "With tensor operations", "Implementing model serving", "All of the above"],
-        "options_hi": ["ONNX रनटाइम बाइंडिंग का उपयोग करके", "टेंसर ऑपरेशन के साथ", "मॉडल सर्विंग इम्प्लीमेंट करके", "उपरोक्त सभी"],
-        "answer_en": "All of the above",
-        "answer_hi": "उपरोक्त सभी",
-        "attempted": false,
-        "selected": ""
-    },
-    {
-        "num": 61,
-        "question_en": "What is the purpose of the 'runtime.UnlockOSThread' function?",
-        "question_hi": "'runtime.UnlockOSThread' फंक्शन का उद्देश्य क्या है?",
-        "options_en": ["Unbind goroutine from OS thread", "Release thread binding", "Reverse LockOSThread operation", "All of the above"],
-        "options_hi": ["गोरूटीन को OS थ्रेड से अनबाइंड करना", "थ्रेड बाइंडिंग रिलीज करना", "LockOSThread ऑपरेशन रिवर्स करना", "उपरोक्त सभी"],
-        "answer_en": "All of the above",
-        "answer_hi": "उपरोक्त सभी",
-        "attempted": false,
-        "selected": ""
-    },
-    {
-        "num": 62,
-        "question_en": "How do you implement graph algorithms?",
-        "question_hi": "ग्राफ एल्गोरिदम कैसे इम्प्लीमेंट करते हैं?",
-        "options_en": ["Using adjacency lists or matrices", "With BFS, DFS, Dijkstra implementations", "Implementing graph traversal and search", "All of the above"],
-        "options_hi": ["एडजेंसी लिस्ट या मैट्रिक्स का उपयोग करके", "BFS, DFS, Dijkstra इम्प्लीमेंटेशन के साथ", "ग्राफ ट्रैवर्सल और सर्च इम्प्लीमेंट करके", "उपरोक्त सभी"],
-        "answer_en": "All of the above",
-        "answer_hi": "उपरोक्त सभी",
-        "attempted": false,
-        "selected": ""
-    },
-    {
-        "num": 63,
-        "question_en": "What is the purpose of the 'reflect.Value.TrySend' method?",
-        "question_hi": "'reflect.Value.TrySend' मेथड का उद्देश्य क्या है?",
-        "options_en": ["Non-blocking channel send in reflection", "Check channel capacity", "Reflection-based channel testing", "All of the above"],
-        "options_hi": ["रिफ्लेक्शन में नॉन-ब्लॉकिंग चैनल सेंड", "चैनल कैपेसिटी चेक करना", "रिफ्लेक्शन-बेस्ड चैनल टेस्टिंग", "उपरोक्त सभी"],
-        "answer_en": "All of the above",
-        "answer_hi": "उपरोक्त सभी",
-        "attempted": false,
-        "selected": ""
-    },
-    {
-        "num": 64,
-        "question_en": "How do you implement real-time collaboration?",
-        "question_hi": "रियल-टाइम कॉलैबोरेशन कैसे इम्प्लीमेंट करते हैं?",
-        "options_en": ["Using WebSocket with operational transforms", "With conflict resolution algorithms", "Implementing collaborative editing", "All of the above"],
-        "options_hi": ["ऑपरेशनल ट्रांसफॉर्म के साथ WebSocket का उपयोग करके", "कनफ्लिक्ट रेजोल्यूशन एल्गोरिदम के साथ", "कॉलैबोरेटिव एडिटिंग इम्प्लीमेंट करके", "उपरोक्त सभी"],
-        "answer_en": "All of the above",
-        "answer_hi": "उपरोक्त सभी",
-        "attempted": false,
-        "selected": ""
-    },
-    {
-        "num": 65,
-        "question_en": "What is the purpose of the 'runtime.Gosched' function?",
-        "question_hi": "'runtime.Gosched' फंक्शन का उद्देश्य क्या है?",
-        "options_en": ["Yield processor to other goroutines", "Cooperative scheduling", "Prevent goroutine starvation", "All of the above"],
-        "options_hi": ["प्रोसेसर को अन्य गोरूटीन को यील्ड करना", "कोऑपरेटिव शेड्यूलिंग", "गोरूटीन स्टार्वेशन रोकना", "उपरोक्त सभी"],
-        "answer_en": "All of the above",
-        "answer_hi": "उपरोक्त सभी",
-        "attempted": false,
-        "selected": ""
-    },
-    {
-        "num": 66,
-        "question_en": "How do you implement blockchain protocols?",
-        "question_hi": "ब्लॉकचेन प्रोटोकॉल कैसे इम्प्लीमेंट करते हैं?",
-        "options_en": ["Using cryptographic primitives", "With consensus mechanisms", "Implementing distributed ledgers", "All of the above"],
-        "options_hi": ["क्रिप्टोग्राफिक प्रिमिटिव का उपयोग करके", "कंसेंसस मैकेनिज्म के साथ", "डिस्ट्रीब्यूटेड लेजर इम्प्लीमेंट करके", "उपरोक्त सभी"],
-        "answer_en": "All of the above",
-        "answer_hi": "उपरोक्त सभी",
-        "attempted": false,
-        "selected": ""
-    },
-    {
-        "num": 67,
-        "question_en": "What is the purpose of the 'reflect.Value.MapRange' method?",
-        "question_hi": "'reflect.Value.MapRange' मेथड का उद्देश्य क्या है?",
-        "options_en": ["Iterate over map in reflection", "Reflection-based map traversal", "Key-value iteration", "All of the above"],
-        "options_hi": ["रिफ्लेक्शन में मैप पर इटरेट करना", "रिफ्लेक्शन-बेस्ड मैप ट्रैवर्सल", "की-वैल्यू इटरेशन", "उपरोक्त सभी"],
-        "answer_en": "All of the above",
-        "answer_hi": "उपरोक्त सभी",
-        "attempted": false,
-        "selected": ""
-    },
-    {
-        "num": 68,
-        "question_en": "How do you implement quantum computing simulations?",
-        "question_hi": "क्वांटम कंप्यूटिंग सिमुलेशन कैसे इम्प्लीमेंट करते हैं?",
-        "options_en": ["Using complex number matrices", "With quantum gate operations", "Implementing state vector evolution", "All of the above"],
-        "options_hi": ["कॉम्प्लेक्स नंबर मैट्रिक्स का उपयोग करके", "क्वांटम गेट ऑपरेशन के साथ", "स्टेट वेक्टर इवोल्यूशन इम्प्लीमेंट करके", "उपरोक्त सभी"],
-        "answer_en": "All of the above",
-        "answer_hi": "उपरोक्त सभी",
-        "attempted": false,
-        "selected": ""
-    },
-    {
-        "num": 69,
-        "question_en": "What is the purpose of the 'runtime.Goexit' function?",
-        "question_hi": "'runtime.Goexit' फंक्शन का उद्देश्य क्या है?",
-        "options_en": ["Terminate current goroutine", "Clean goroutine shutdown", "Run deferred functions", "All of the above"],
-        "options_hi": ["करंट गोरूटीन टर्मिनेट करना", "क्लीन गोरूटीन शटडाउन", "डिफर्ड फंक्शन रन करना", "उपरोक्त सभी"],
-        "answer_en": "All of the above",
-        "answer_hi": "उपरोक्त सभी",
-        "attempted": false,
-        "selected": ""
-    },
-    {
-        "num": 70,
-        "question_en": "How do you implement genetic algorithms?",
-        "question_hi": "जेनेटिक एल्गोरिदम कैसे इम्प्लीमेंट करते हैं?",
-        "options_en": ["Using selection, crossover, mutation", "With fitness evaluation", "Implementing population evolution", "All of the above"],
-        "options_hi": ["सिलेक्शन, क्रॉसओवर, म्यूटेशन का उपयोग करके", "फिटनेस एवैल्यूएशन के साथ", "पॉपुलेशन इवोल्यूशन इम्प्लीमेंट करके", "उपरोक्त सभी"],
-        "answer_en": "All of the above",
-        "answer_hi": "उपरोक्त सभी",
-        "attempted": false,
-        "selected": ""
-    },
-    {
-        "num": 71,
-        "question_en": "What is the purpose of the 'reflect.Value.Slice3' method?",
-        "question_hi": "'reflect.Value.Slice3' मेथड का उद्देश्य क्या है?",
-        "options_en": ["Three-index slice operation in reflection", "Full slice expression support", "Reflection-based slice manipulation", "All of the above"],
-        "options_hi": ["रिफ्लेक्शन में थ्री-इंडेक्स स्लाइस ऑपरेशन", "फुल स्लाइस एक्सप्रेशन सपोर्ट", "रिफ्लेक्शन-बेस्ड स्लाइस मैनिपुलेशन", "उपरोक्त सभी"],
-        "answer_en": "All of the above",
-        "answer_hi": "उपरोक्त सभी",
-        "attempted": false,
-        "selected": ""
-    },
-    {
-        "num": 72,
-        "question_en": "How do you implement neural networks?",
-        "question_hi": "न्यूरल नेटवर्क कैसे इम्प्लीमेंट करते हैं?",
-        "options_en": ["Using matrix operations for layers", "With backpropagation algorithm", "Implementing activation functions", "All of the above"],
-        "options_hi": ["लेयर के लिए मैट्रिक्स ऑपरेशन का उपयोग करके", "बैकप्रोपेगेशन एल्गोरिदम के साथ", "एक्टिवेशन फंक्शन इम्प्लीमेंट करके", "उपरोक्त सभी"],
-        "answer_en": "All of the above",
-        "answer_hi": "उपरोक्त सभी",
-        "attempted": false,
-        "selected": ""
-    },
-    {
-        "num": 73,
-        "question_en": "What is the purpose of the 'runtime.SetMutexProfileFraction' function?",
-        "question_hi": "'runtime.SetMutexProfileFraction' फंक्शन का उद्देश्य क्या है?",
-        "options_en": ["Set mutex contention profiling rate", "Control mutex profile sampling", "Configure lock profiling", "All of the above"],
-        "options_hi": ["म्यूटेक्स कॉन्टेंशन प्रोफाइलिंग रेट सेट करना", "म्यूटेक्स प्रोफाइल सैंपलिंग कंट्रोल करना", "लॉक प्रोफाइलिंग कॉन्फिगर करना", "उपरोक्त सभी"],
-        "answer_en": "All of the above",
-        "answer_hi": "उपरोक्त सभी",
-        "attempted": false,
-        "selected": ""
-    },
-    {
-        "num": 74,
-        "question_en": "How do you implement computer vision algorithms?",
-        "question_hi": "कंप्यूटर विजन एल्गोरिदम कैसे इम्प्लीमेंट करते हैं?",
-        "options_en": ["Using image processing operations", "With feature detection algorithms", "Implementing object recognition", "All of the above"],
-        "options_hi": ["इमेज प्रोसेसिंग ऑपरेशन का उपयोग करके", "फीचर डिटेक्शन एल्गोरिदम के साथ", "ऑब्जेक्ट रिकग्निशन इम्प्लीमेंट करके", "उपरोक्त सभी"],
-        "answer_en": "All of the above",
-        "answer_hi": "उपरोक्त सभी",
-        "attempted": false,
-        "selected": ""
-    },
-    {
-        "num": 75,
-        "question_en": "What is the purpose of the 'reflect.Value.UnsafeAddr' method?",
-        "question_hi": "'reflect.Value.UnsafeAddr' मेथड का उद्देश्य क्या है?",
-        "options_en": ["Get unsafe.Pointer to value", "Low-level address access", "Reflection-based pointer operations", "All of the above"],
-        "options_hi": ["वैल्यू का unsafe.Pointer प्राप्त करना", "लो-लेवल एड्रेस एक्सेस", "रिफ्लेक्शन-बेस्ड पॉइंटर ऑपरेशन", "उपरोक्त सभी"],
-        "answer_en": "All of the above",
-        "answer_hi": "उपरोक्त सभी",
-        "attempted": false,
-        "selected": ""
-    },
-    {
-        "num": 76,
-        "question_en": "How do you implement natural language processing?",
-        "question_hi": "नेचुरल लैंग्वेज प्रोसेसिंग कैसे इम्प्लीमेंट करते हैं?",
-        "options_en": ["Using tokenization and parsing", "With semantic analysis", "Implementing language models", "All of the above"],
-        "options_hi": ["टोकनाइजेशन और पार्सिंग का उपयोग करके", "सिमेंटिक एनालिसिस के साथ", "लैंग्वेज मॉडल इम्प्लीमेंट करके", "उपरोक्त सभी"],
-        "answer_en": "All of the above",
-        "answer_hi": "उपरोक्त सभी",
-        "attempted": false,
-        "selected": ""
-    },
-    {
-        "num": 77,
-        "question_en": "What is the purpose of the 'runtime.SetCgoTraceback' function?",
-        "question_hi": "'runtime.SetCgoTraceback' फंक्शन का उद्देश्य क्या है?",
-        "options_en": ["Set CGO traceback collection", "Configure CGO debugging", "Enable CGO stack traces", "All of the above"],
-        "options_hi": ["CGO ट्रेसबैक कलेक्शन सेट करना", "CGO डीबगिंग कॉन्फिगर करना", "CGO स्टैक ट्रेस एनेबल करना", "उपरोक्त सभी"],
-        "answer_en": "All of the above",
-        "answer_hi": "उपरोक्त सभी",
-        "attempted": false,
-        "selected": ""
-    },
-    {
-        "num": 78,
-        "question_en": "How do you implement recommendation systems?",
-        "question_hi": "रिकमेंडेशन सिस्टम कैसे इम्प्लीमेंट करते हैं?",
-        "options_en": ["Using collaborative filtering", "With content-based approaches", "Implementing matrix factorization", "All of the above"],
-        "options_hi": ["कॉलैबोरेटिव फिल्टरिंग का उपयोग करके", "कंटेंट-बेस्ड एप्रोच के साथ", "मैट्रिक्स फैक्टराइजेशन इम्प्लीमेंट करके", "उपरोक्त सभी"],
-        "answer_en": "All of the above",
-        "answer_hi": "उपरोक्त सभी",
-        "attempted": false,
-        "selected": ""
-    },
-    {
-        "num": 79,
-        "question_en": "What is the purpose of the 'reflect.Value.CanInterface' method?",
-        "question_hi": "'reflect.Value.CanInterface' मेथड का उद्देश्य क्या है?",
-        "options_en": ["Check if value can be converted to interface{}", "Interface conversion safety", "Reflection-based type checking", "All of the above"],
-        "options_hi": ["चेक करना कि वैल्यू interface{} में कन्वर्ट हो सकती है या नहीं", "इंटरफेस कन्वर्जन सेफ्टी", "रिफ्लेक्शन-बेस्ड टाइप चेकिंग", "उपरोक्त सभी"],
-        "answer_en": "All of the above",
-        "answer_hi": "उपरोक्त सभी",
-        "attempted": false,
-        "selected": ""
-    },
-    {
-        "num": 80,
-        "question_en": "How do you implement anomaly detection?",
-        "question_hi": "अनोमली डिटेक्शन कैसे इम्प्लीमेंट करते हैं?",
-        "options_en": ["Using statistical methods", "With machine learning models", "Implementing outlier detection", "All of the above"],
-        "options_hi": ["स्टैटिस्टिकल मेथड का उपयोग करके", "मशीन लर्निंग मॉडल के साथ", "आउटलायर डिटेक्शन इम्प्लीमेंट करके", "उपरोक्त सभी"],
-        "answer_en": "All of the above",
-        "answer_hi": "उपरोक्त सभी",
-        "attempted": false,
-        "selected": ""
-    },
-    {
-        "num": 81,
-        "question_en": "What is the purpose of the 'runtime.Callers' function?",
-        "question_hi": "'runtime.Callers' फंक्शन का उद्देश्य क्या है?",
-        "options_en": ["Get call stack program counters", "Stack trace generation", "Debug information collection", "All of the above"],
-        "options_hi": ["कॉल स्टैक प्रोग्राम काउंटर प्राप्त करना", "स्टैक ट्रेस जनरेशन", "डीबग इनफार्मेशन कलेक्शन", "उपरोक्त सभी"],
-        "answer_en": "All of the above",
-        "answer_hi": "उपरोक्त सभी",
-        "attempted": false,
-        "selected": ""
-    },
-    {
-        "num": 82,
-        "question_en": "How do you implement fraud detection?",
-        "question_hi": "फ्रॉड डिटेक्शन कैसे इम्प्लीमेंट करते हैं?",
-        "options_en": ["Using rule-based systems", "With behavioral analysis", "Implementing pattern recognition", "All of the above"],
-        "options_hi": ["रूल-बेस्ड सिस्टम का उपयोग करके", "बिहेवियरल एनालिसिस के साथ", "पैटर्न रिकग्निशन इम्प्लीमेंट करके", "उपरोक्त सभी"],
-        "answer_en": "All of the above",
-        "answer_hi": "उपरोक्त सभी",
-        "attempted": false,
-        "selected": ""
-    },
-    {
-        "num": 83,
-        "question_en": "What is the purpose of the 'reflect.Value.OverflowComplex' method?",
-        "question_hi": "'reflect.Value.OverflowComplex' मेथड का उद्देश्य क्या है?",
-        "options_en": ["Check complex number overflow in conversion", "Type conversion safety", "Reflection-based overflow detection", "All of the above"],
-        "options_hi": ["कन्वर्जन में कॉम्प्लेक्स नंबर ओवरफ्लो चेक करना", "टाइप कन्वर्जन सेफ्टी", "रिफ्लेक्शन-बेस्ड ओवरफ्लो डिटेक्शन", "उपरोक्त सभी"],
-        "answer_en": "All of the above",
-        "answer_hi": "उपरोक्त सभी",
-        "attempted": false,
-        "selected": ""
-    },
-    {
-        "num": 84,
-        "question_en": "How do you implement predictive maintenance?",
-        "question_hi": "प्रिडिक्टिव मेंटेनेंस कैसे इम्प्लीमेंट करते हैं?",
-        "options_en": ["Using sensor data analysis", "With failure prediction models", "Implementing condition monitoring", "All of the above"],
-        "options_hi": ["सेंसर डेटा एनालिसिस का उपयोग करके", "फेलियर प्रिडिक्शन मॉडल के साथ", "कंडीशन मॉनिटरिंग इम्प्लीमेंट करके", "उपरोक्त सभी"],
-        "answer_en": "All of the above",
-        "answer_hi": "उपरोक्त सभी",
-        "attempted": false,
-        "selected": ""
-    },
-    {
-        "num": 85,
-        "question_en": "What is the purpose of the 'runtime.Func' type?",
-        "question_hi": "'runtime.Func' टाइप का उद्देश्य क्या है?",
-        "options_en": ["Represent function in runtime", "Function metadata access", "Debug information", "All of the above"],
-        "options_hi": ["रनटाइम में फंक्शन रिप्रेजेंट करना", "फंक्शन मेटाडेटा एक्सेस", "डीबग इनफार्मेशन", "उपरोक्त सभी"],
-        "answer_en": "All of the above",
-        "answer_hi": "उपरोक्त सभी",
-        "attempted": false,
-        "selected": ""
-    },
-    {
-        "num": 86,
-        "question_en": "How do you implement supply chain optimization?",
-        "question_hi": "सप्लाई चेन ऑप्टिमाइज़ेशन कैसे इम्प्लीमेंट करते हैं?",
-        "options_en": ["Using linear programming", "With constraint satisfaction", "Implementing routing algorithms", "All of the above"],
-        "options_hi": ["लीनियर प्रोग्रामिंग का उपयोग करके", "कंस्ट्रेंट सैटिस्फैक्शन के साथ", "रूटिंग एल्गोरिदम इम्प्लीमेंट करके", "उपरोक्त सभी"],
-        "answer_en": "All of the above",
-        "answer_hi": "उपरोक्त सभी",
-        "attempted": false,
-        "selected": ""
-    },
-    {
-        "num": 87,
-        "question_en": "What is the purpose of the 'reflect.Value.OverflowFloat' method?",
-        "question_hi": "'reflect.Value.OverflowFloat' मेथड का उद्देश्य क्या है?",
-        "options_en": ["Check float overflow in conversion", "Floating-point safety", "Reflection-based range checking", "All of the above"],
-        "options_hi": ["कन्वर्जन में फ्लोट ओवरफ्लो चेक करना", "फ्लोटिंग-पॉइंट सेफ्टी", "रिफ्लेक्शन-बेस्ड रेंज चेकिंग", "उपरोक्त सभी"],
-        "answer_en": "All of the above",
-        "answer_hi": "उपरोक्त सभी",
-        "attempted": false,
-        "selected": ""
-    },
-    {
-        "num": 88,
-        "question_en": "How do you implement energy management systems?",
-        "question_hi": "एनर्जी मैनेजमेंट सिस्टम कैसे इम्प्लीमेंट करते हैं?",
-        "options_en": ["Using smart grid algorithms", "With consumption optimization", "Implementing demand response", "All of the above"],
-        "options_hi": ["स्मार्ट ग्रिड एल्गोरिदम का उपयोग करके", "कंजम्पशन ऑप्टिमाइज़ेशन के साथ", "डिमांड रिस्पांस इम्प्लीमेंट करके", "उपरोक्त सभी"],
-        "answer_en": "All of the above",
-        "answer_hi": "उपरोक्त सभी",
-        "attempted": false,
-        "selected": ""
-    },
-    {
-        "num": 89,
-        "question_en": "What is the purpose of the 'runtime.Frames' type?",
-        "question_hi": "'runtime.Frames' टाइप का उद्देश्य क्या है?",
-        "options_en": ["Iterate over call stack frames", "Stack frame information", "Debug stack analysis", "All of the above"],
-        "options_hi": ["कॉल स्टैक फ्रेम पर इटरेट करना", "स्टैक फ्रेम इनफार्मेशन", "डीबग स्टैक एनालिसिस", "उपरोक्त सभी"],
-        "answer_en": "All of the above",
-        "answer_hi": "उपरोक्त सभी",
-        "attempted": false,
-        "selected": ""
-    },
-    {
-        "num": 90,
-        "question_en": "How do you implement autonomous vehicle control?",
-        "question_hi": "ऑटोनोमस व्हीकल कंट्रोल कैसे इम्प्लीमेंट करते हैं?",
-        "options_en": ["Using sensor fusion algorithms", "With path planning", "Implementing control systems", "All of the above"],
-        "options_hi": ["सेंसर फ्यूजन एल्गोरिदम का उपयोग करके", "पाथ प्लानिंग के साथ", "कंट्रोल सिस्टम इम्प्लीमेंट करके", "उपरोक्त सभी"],
-        "answer_en": "All of the above",
-        "answer_hi": "उपरोक्त सभी",
-        "attempted": false,
-        "selected": ""
-    },
-    {
-        "num": 91,
-        "question_en": "What is the purpose of the 'reflect.Value.OverflowInt' method?",
-        "question_hi": "'reflect.Value.OverflowInt' मेथड का उद्देश्य क्या है?",
-        "options_en": ["Check integer overflow in conversion", "Integer range safety", "Reflection-based overflow checking", "All of the above"],
-        "options_hi": ["कन्वर्जन में इंटीजर ओवरफ्लो चेक करना", "इंटीजर रेंज सेफ्टी", "रिफ्लेक्शन-बेस्ड ओवरफ्लो चेकिंग", "उपरोक्त सभी"],
-        "answer_en": "All of the above",
-        "answer_hi": "उपरोक्त सभी",
-        "attempted": false,
-        "selected": ""
-    },
-    {
-        "num": 92,
-        "question_en": "How do you implement smart city infrastructure?",
-        "question_hi": "स्मार्ट सिटी इन्फ्रास्ट्रक्चर कैसे इम्प्लीमेंट करते हैं?",
-        "options_en": ["Using IoT sensor networks", "With data analytics platforms", "Implementing urban management systems", "All of the above"],
-        "options_hi": ["IoT सेंसर नेटवर्क का उपयोग करके", "डेटा एनालिटिक्स प्लेटफॉर्म के साथ", "अर्बन मैनेजमेंट सिस्टम इम्प्लीमेंट करके", "उपरोक्त सभी"],
-        "answer_en": "All of the above",
-        "answer_hi": "उपरोक्त सभी",
-        "attempted": false,
-        "selected": ""
-    },
-    {
-        "num": 93,
-        "question_en": "What is the purpose of the 'reflect.Value.OverflowUint' method?",
-        "question_hi": "'reflect.Value.OverflowUint' मेथड का उद्देश्य क्या है?",
-        "options_en": ["Check unsigned integer overflow in conversion", "Unsigned integer safety", "Reflection-based unsigned overflow", "All of the above"],
-        "options_hi": ["कन्वर्जन में अनसाइन्ड इंटीजर ओवरफ्लो चेक करना", "अनसाइन्ड इंटीजर सेफ्टी", "रिफ्लेक्शन-बेस्ड अनसाइन्ड ओवरफ्लो", "उपरोक्त सभी"],
-        "answer_en": "All of the above",
-        "answer_hi": "उपरोक्त सभी",
-        "attempted": false,
-        "selected": ""
-    },
-    {
-        "num": 94,
-        "question_en": "How do you implement digital twins?",
-        "question_hi": "डिजिटल ट्विन कैसे इम्प्लीमेंट करते हैं?",
-        "options_en": ["Using real-time data synchronization", "With simulation models", "Implementing virtual representations", "All of the above"],
-        "options_hi": ["रियल-टाइम डेटा सिंक्रोनाइज़ेशन का उपयोग करके", "सिमुलेशन मॉडल के साथ", "वर्चुअल रिप्रेजेंटेशन इम्प्लीमेंट करके", "उपरोक्त सभी"],
-        "answer_en": "All of the above",
-        "answer_hi": "उपरोक्त सभी",
-        "attempted": false,
-        "selected": ""
-    },
-    {
-        "num": 95,
-        "question_en": "What is the purpose of the 'runtime.Frame' type?",
-        "question_hi": "'runtime.Frame' टाइप का उद्देश्य क्या है?",
-        "options_en": ["Represent stack frame information", "Call stack metadata", "Debug frame details", "All of the above"],
-        "options_hi": ["स्टैक फ्रेम इनफार्मेशन रिप्रेजेंट करना", "कॉल स्टैक मेटाडेटा", "डीबग फ्रेम डिटेल", "उपरोक्त सभी"],
-        "answer_en": "All of the above",
-        "answer_hi": "उपरोक्त सभी",
-        "attempted": false,
-        "selected": ""
-    },
-    {
-        "num": 96,
-        "question_en": "How do you implement augmented reality?",
-        "question_hi": "ऑगमेंटेड रियलिटी कैसे इम्प्लीमेंट करते हैं?",
-        "options_en": ["Using computer vision for tracking", "With 3D rendering", "Implementing sensor integration", "All of the above"],
-        "options_hi": ["ट्रैकिंग के लिए कंप्यूटर विजन का उपयोग करके", "3D रेंडरिंग के साथ", "सेंसर इंटीग्रेशन इम्प्लीमेंट करके", "उपरोक्त सभी"],
-        "answer_en": "All of the above",
-        "answer_hi": "उपरोक्त सभी",
-        "attempted": false,
-        "selected": ""
-    },
-    {
-        "num": 97,
-        "question_en": "What is the purpose of the 'reflect.Value.SetMapIndex' method?",
-        "question_hi": "'reflect.Value.SetMapIndex' मेथड का उद्देश्य क्या है?",
-        "options_en": ["Set map key-value pair in reflection", "Reflection-based map modification", "Dynamic map operations", "All of the above"],
-        "options_hi": ["रिफ्लेक्शन में मैप की-वैल्यू पेयर सेट करना", "रिफ्लेक्शन-बेस्ड मैप मोडिफिकेशन", "डायनामिक मैप ऑपरेशन", "उपरोक्त सभी"],
-        "answer_en": "All of the above",
-        "answer_hi": "उपरोक्त सभी",
-        "attempted": false,
-        "selected": ""
-    },
-    {
-        "num": 98,
-        "question_en": "How do you implement virtual reality?",
-        "question_hi": "वर्चुअल रियलिटी कैसे इम्प्लीमेंट करते हैं?",
-        "options_en": ["Using head tracking and rendering", "With immersive environments", "Implementing motion controls", "All of the above"],
-        "options_hi": ["हेड ट्रैकिंग और रेंडरिंग का उपयोग करके", "इमर्सिव एनवायरनमेंट के साथ", "मोशन कंट्रोल इम्प्लीमेंट करके", "उपरोक्त सभी"],
-        "answer_en": "All of the above",
-        "answer_hi": "उपरोक्त सभी",
-        "attempted": false,
-        "selected": ""
-    },
-    {
-        "num": 99,
-        "question_en": "What is the purpose of the 'reflect.Value.Send' method?",
-        "question_hi": "'reflect.Value.Send' मेथड का उद्देश्य क्या है?",
-        "options_en": ["Send value to channel in reflection", "Reflection-based channel operations", "Dynamic channel communication", "All of the above"],
-        "options_hi": ["रिफ्लेक्शन में चैनल को वैल्यू सेंड करना", "रिफ्लेक्शन-बेस्ड चैनल ऑपरेशन", "डायनामिक चैनल कम्युनिकेशन", "उपरोक्त सभी"],
-        "answer_en": "All of the above",
-        "answer_hi": "उपरोक्त सभी",
-        "attempted": false,
-        "selected": ""
-    },
-    {
-        "num": 100,
-        "question_en": "How do you implement metaverse platforms?",
-        "question_hi": "मेटावर्स प्लेटफॉर्म कैसे इम्प्लीमेंट करते हैं?",
-        "options_en": ["Using 3D world rendering", "With social interaction systems", "Implementing virtual economies", "All of the above"],
-        "options_hi": ["3D वर्ल्ड रेंडरिंग का उपयोग करके", "सोशल इंटरेक्शन सिस्टम के साथ", "वर्चुअल इकॉनमी इम्प्लीमेंट करके", "उपरोक्त सभी"],
-        "answer_en": "All of the above",
-        "answer_hi": "उपरोक्त सभी",
-        "attempted": false,
-        "selected": ""
-    }
-]
+const questions = [
+  {
+    "num": 1,
+    "question_en": "What is 'pointer provenance' and how does it affect compiler optimizations?",
+    "question_hi": "'पॉइंटर प्रोवेनेंस' क्या है और यह कंपाइलर ऑप्टिमाइज़ेशन को कैसे प्रभावित करता है?",
+    "options_en": [
+      "Concept tracking allocation origin; enables alias analysis and dead store elimination",
+      "Pointer value only",
+      "No effect on optimization",
+      "Only for debugging"
+    ],
+    "options_hi": [
+      "आवंटन मूल ट्रैकिंग अवधारणा; एलियास विश्लेषण और डेड स्टोर एलिमिनेशन सक्षम करता है",
+      "केवल पॉइंटर मान",
+      "ऑप्टिमाइज़ेशन पर कोई प्रभाव नहीं",
+      "केवल डिबगिंग के लिए"
+    ],
+    "answer_en": "Concept tracking allocation origin; enables alias analysis and dead store elimination",
+    "answer_hi": "आवंटन मूल ट्रैकिंग अवधारणा; एलियास विश्लेषण और डेड स्टोर एलिमिनेशन सक्षम करता है",
+    "attempted": false,
+    "selected": ""
+  },
+  {
+    "num": 2,
+    "question_en": "What is 'pointer integer representation' and its portability issues?",
+    "question_hi": "'पॉइंटर पूर्णांक प्रतिनिधित्व' क्या है और इसकी पोर्टेबिलिटी समस्याएं क्या हैं?",
+    "options_en": [
+      "Cast between pointer and integer; implementation-defined size, trap representations",
+      "Always portable",
+      "Standard guarantees size",
+      "No issues"
+    ],
+    "options_hi": [
+      "पॉइंटर और पूर्णांक के बीच कास्ट; कार्यान्वयन-परिभाषित आकार, ट्रैप प्रतिनिधित्व",
+      "हमेशा पोर्टेबल",
+      "मानक आकार की गारंटी देता है",
+      "कोई समस्या नहीं"
+    ],
+    "answer_en": "Cast between pointer and integer; implementation-defined size, trap representations",
+    "answer_hi": "पॉइंटर और पूर्णांक के बीच कास्ट; कार्यान्वयन-परिभाषित आकार, ट्रैप प्रतिनिधित्व",
+    "attempted": false,
+    "selected": ""
+  },
+  {
+    "num": 3,
+    "question_en": "What is 'pointer arithmetic on void pointers' and C standard rules?",
+    "question_hi": "'void पॉइंटर पर पॉइंटर अंकगणित' और C मानक नियम क्या हैं?",
+    "options_en": [
+      "Not allowed in standard C; GCC extension allows with size 1",
+      "Always allowed",
+      "Only in C++",
+      "Standard defines size"
+    ],
+    "options_hi": [
+      "मानक C में अनुमति नहीं; GCC एक्सटेंशन आकार 1 के साथ अनुमति देता है",
+      "हमेशा अनुमति",
+      "केवल C++ में",
+      "मानक आकार परिभाषित करता है"
+    ],
+    "answer_en": "Not allowed in standard C; GCC extension allows with size 1",
+    "answer_hi": "मानक C में अनुमति नहीं; GCC एक्सटेंशन आकार 1 के साथ अनुमति देता है",
+    "attempted": false,
+    "selected": ""
+  },
+  {
+    "num": 4,
+    "question_en": "What is 'strict pointer aliasing' exceptions for aggregates?",
+    "question_hi": "एग्रीगेट्स के लिए 'स्ट्रिक्ट पॉइंटर एलियासिंग' अपवाद क्या हैं?",
+    "options_en": [
+      "Struct/union can alias with contained types; char* can alias anything",
+      "No exceptions",
+      "Only arrays",
+      "All pointers can alias"
+    ],
+    "options_hi": [
+      "स्ट्रक्चर/यूनियन समाहित प्रकारों के साथ एलियास कर सकते हैं; char* कुछ भी एलियास कर सकता है",
+      "कोई अपवाद नहीं",
+      "केवल ऐरे",
+      "सभी पॉइंटर्स एलियास कर सकते हैं"
+    ],
+    "answer_en": "Struct/union can alias with contained types; char* can alias anything",
+    "answer_hi": "स्ट्रक्चर/यूनियन समाहित प्रकारों के साथ एलियास कर सकते हैं; char* कुछ भी एलियास कर सकता है",
+    "attempted": false,
+    "selected": ""
+  },
+  {
+    "num": 5,
+    "question_en": "What is 'effective type' rule for allocated memory?",
+    "question_hi": "आवंटित मेमोरी के लिए 'प्रभावी प्रकार' नियम क्या है?",
+    "options_en": [
+      "Type of lvalue used for store determines effective type; can change with subsequent stores",
+      "Always void*",
+      "First store type fixed",
+      "No effective type"
+    ],
+    "options_hi": [
+      "स्टोर के लिए उपयोग किए गए lvalue का प्रकार प्रभावी प्रकार निर्धारित करता है; बाद के स्टोर के साथ बदल सकता है",
+      "हमेशा void*",
+      "पहला स्टोर प्रकार निश्चित",
+      "कोई प्रभावी प्रकार नहीं"
+    ],
+    "answer_en": "Type of lvalue used for store determines effective type; can change with subsequent stores",
+    "answer_hi": "स्टोर के लिए उपयोग किए गए lvalue का प्रकार प्रभावी प्रकार निर्धारित करता है; बाद के स्टोर के साथ बदल सकता है",
+    "attempted": false,
+    "selected": ""
+  },
+  {
+    "num": 6,
+    "question_en": "What is 'strict aliasing' violation example causing UB?",
+    "question_hi": "UB का कारण बनने वाले 'स्ट्रिक्ट एलियासिंग' उल्लंघन का उदाहरण क्या है?",
+    "options_en": [
+      "int i; float *f = (float*)&i; *f = 1.0; (incompatible types)",
+      "char *c = (char*)&i; (allowed)",
+      "Same type access",
+      "Union access"
+    ],
+    "options_hi": [
+      "int i; float *f = (float*)&i; *f = 1.0; (असंगत प्रकार)",
+      "char *c = (char*)&i; (अनुमत)",
+      "समान प्रकार एक्सेस",
+      "यूनियन एक्सेस"
+    ],
+    "answer_en": "int i; float *f = (float*)&i; *f = 1.0; (incompatible types)",
+    "answer_hi": "int i; float *f = (float*)&i; *f = 1.0; (असंगत प्रकार)",
+    "attempted": false,
+    "selected": ""
+  },
+  {
+    "num": 7,
+    "question_en": "What is 'type-based alias analysis' (TBAA) in compilers?",
+    "question_hi": "कंपाइलर में 'टाइप-आधारित एलियास विश्लेषण' (TBAA) क्या है?",
+    "options_en": [
+      "Optimization assuming pointers of different types don't alias",
+      "All pointers alias",
+      "Only for same types",
+      "No optimization"
+    ],
+    "options_hi": [
+      "ऑप्टिमाइज़ेशन यह मानते हुए कि विभिन्न प्रकार के पॉइंटर्स एलियास नहीं करते",
+      "सभी पॉइंटर्स एलियास",
+      "केवल समान प्रकारों के लिए",
+      "कोई ऑप्टिमाइज़ेशन नहीं"
+    ],
+    "answer_en": "Optimization assuming pointers of different types don't alias",
+    "answer_hi": "ऑप्टिमाइज़ेशन यह मानते हुए कि विभिन्न प्रकार के पॉइंटर्स एलियास नहीं करते",
+    "attempted": false,
+    "selected": ""
+  },
+  {
+    "num": 8,
+    "question_en": "What is 'dead store elimination' interaction with volatile?",
+    "question_hi": "volatile के साथ 'डेड स्टोर एलिमिनेशन' इंटरैक्शन क्या है?",
+    "options_en": [
+      "volatile prevents elimination of writes; all volatile accesses preserved",
+      "No prevention",
+      "Only reads preserved",
+      "Elimination allowed"
+    ],
+    "options_hi": [
+      "volatile लिखने के उन्मूलन को रोकता है; सभी volatile एक्सेस संरक्षित",
+      "कोई रोकथाम नहीं",
+      "केवल पढ़ना संरक्षित",
+      "उन्मूलन अनुमत"
+    ],
+    "answer_en": "volatile prevents elimination of writes; all volatile accesses preserved",
+    "answer_hi": "volatile लिखने के उन्मूलन को रोकता है; सभी volatile एक्सेस संरक्षित",
+    "attempted": false,
+    "selected": ""
+  },
+  {
+    "num": 9,
+    "question_en": "What is 'common subexpression elimination' across statements?",
+    "question_hi": "कथनों में 'कॉमन सबएक्सप्रेशन एलिमिनेशन' क्या है?",
+    "options_en": [
+      "Reusing computed value from earlier expression; requires no intervening modifications",
+      "Only within same statement",
+      "Not allowed",
+      "Always safe"
+    ],
+    "options_hi": [
+      "पहले के एक्सप्रेशन से गणना किए गए मान का पुन: उपयोग; कोई हस्तक्षेप संशोधन की आवश्यकता नहीं",
+      "केवल एक ही कथन में",
+      "अनुमति नहीं",
+      "हमेशा सुरक्षित"
+    ],
+    "answer_en": "Reusing computed value from earlier expression; requires no intervening modifications",
+    "answer_hi": "पहले के एक्सप्रेशन से गणना किए गए मान का पुन: उपयोग; कोई हस्तक्षेप संशोधन की आवश्यकता नहीं",
+    "attempted": false,
+    "selected": ""
+  },
+  {
+    "num": 10,
+    "question_en": "What is 'loop unrolling' and trade-offs?",
+    "question_hi": "'लूप अनरोलिंग' और ट्रेड-ऑफ क्या है?",
+    "options_en": [
+      "Replicating loop body to reduce overhead; increases code size, may hurt cache",
+      "Always beneficial",
+      "Only for small loops",
+      "No trade-offs"
+    ],
+    "options_hi": [
+      "ओवरहेड कम करने के लिए लूप बॉडी की प्रतिकृति; कोड आकार बढ़ाता है, कैश को नुकसान पहुंचा सकता है",
+      "हमेशा लाभदायक",
+      "केवल छोटे लूप के लिए",
+      "कोई ट्रेड-ऑफ नहीं"
+    ],
+    "answer_en": "Replicating loop body to reduce overhead; increases code size, may hurt cache",
+    "answer_hi": "ओवरहेड कम करने के लिए लूप बॉडी की प्रतिकृति; कोड आकार बढ़ाता है, कैश को नुकसान पहुंचा सकता है",
+    "attempted": false,
+    "selected": ""
+  },
+  {
+    "num": 11,
+    "question_en": "What is 'instruction scheduling' and pipeline hazards?",
+    "question_hi": "'निर्देश शेड्यूलिंग' और पाइपलाइन खतरे क्या हैं?",
+    "options_en": [
+      "Reordering instructions to avoid stalls; data, control, structural hazards",
+      "No hazards",
+      "Only for RISC",
+      "Compiler doesn't schedule"
+    ],
+    "options_hi": [
+      "स्टॉल से बचने के लिए निर्देशों को पुन: व्यवस्थित करना; डेटा, नियंत्रण, संरचनात्मक खतरे",
+      "कोई खतरा नहीं",
+      "केवल RISC के लिए",
+      "कंपाइलर शेड्यूल नहीं करता"
+    ],
+    "answer_en": "Reordering instructions to avoid stalls; data, control, structural hazards",
+    "answer_hi": "स्टॉल से बचने के लिए निर्देशों को पुन: व्यवस्थित करना; डेटा, नियंत्रण, संरचनात्मक खतरे",
+    "attempted": false,
+    "selected": ""
+  },
+  {
+    "num": 12,
+    "question_en": "What is 'register allocation' and spilling?",
+    "question_hi": "'रजिस्टर आवंटन' और स्पिलिंग क्या है?",
+    "options_en": [
+      "Assigning variables to registers; spilling to memory when registers exhausted",
+      "Unlimited registers",
+      "No spilling",
+      "Only for globals"
+    ],
+    "options_hi": [
+      "वेरिएबल्स को रजिस्टरों में असाइन करना; रजिस्टर समाप्त होने पर मेमोरी में स्पिलिंग",
+      "असीमित रजिस्टर",
+      "कोई स्पिलिंग नहीं",
+      "केवल ग्लोबल्स के लिए"
+    ],
+    "answer_en": "Assigning variables to registers; spilling to memory when registers exhausted",
+    "answer_hi": "वेरिएबल्स को रजिस्टरों में असाइन करना; रजिस्टर समाप्त होने पर मेमोरी में स्पिलिंग",
+    "attempted": false,
+    "selected": ""
+  },
+  {
+    "num": 13,
+    "question_en": "What is 'function inlining' heuristics?",
+    "question_hi": "'फ़ंक्शन इनलाइनिंग' हेयूरिस्टिक्स क्या है?",
+    "options_en": [
+      "Size threshold, call frequency, optimization level determine inlining",
+      "Always inline",
+      "Never inline",
+      "Only small functions"
+    ],
+    "options_hi": [
+      "आकार सीमा, कॉल आवृत्ति, ऑप्टिमाइज़ेशन स्तर इनलाइनिंग निर्धारित करते हैं",
+      "हमेशा इनलाइन",
+      "कभी इनलाइन नहीं",
+      "केवल छोटे फ़ंक्शन"
+    ],
+    "answer_en": "Size threshold, call frequency, optimization level determine inlining",
+    "answer_hi": "आकार सीमा, कॉल आवृत्ति, ऑप्टिमाइज़ेशन स्तर इनलाइनिंग निर्धारित करते हैं",
+    "attempted": false,
+    "selected": ""
+  },
+  {
+    "num": 14,
+    "question_en": "What is 'link-time optimization' (LTO) benefits?",
+    "question_hi": "'लिंक-टाइम ऑप्टिमाइज़ेशन' (LTO) के लाभ क्या हैं?",
+    "options_en": [
+      "Cross-module inlining, interprocedural optimization, dead code elimination",
+      "No benefits",
+      "Only faster linking",
+      "Smaller objects"
+    ],
+    "options_hi": [
+      "क्रॉस-मॉड्यूल इनलाइनिंग, अंतर-प्रक्रियात्मक ऑप्टिमाइज़ेशन, डेड कोड एलिमिनेशन",
+      "कोई लाभ नहीं",
+      "केवल तेज लिंकिंग",
+      "छोटी वस्तुएं"
+    ],
+    "answer_en": "Cross-module inlining, interprocedural optimization, dead code elimination",
+    "answer_hi": "क्रॉस-मॉड्यूल इनलाइनिंग, अंतर-प्रक्रियात्मक ऑप्टिमाइज़ेशन, डेड कोड एलिमिनेशन",
+    "attempted": false,
+    "selected": ""
+  },
+  {
+    "num": 15,
+    "question_en": "What is 'profile-guided optimization' (PGO) workflow?",
+    "question_hi": "'प्रोफाइल-गाइडेड ऑप्टिमाइज़ेशन' (PGO) वर्कफ़्लो क्या है?",
+    "options_en": [
+      "Instrument, run with training data, recompile with profile",
+      "Single compilation",
+      "No training",
+      "Static only"
+    ],
+    "options_hi": [
+      "इंस्ट्रूमेंट, प्रशिक्षण डेटा के साथ चलाएं, प्रोफाइल के साथ पुनः संकलित करें",
+      "एकल संकलन",
+      "कोई प्रशिक्षण नहीं",
+      "केवल स्थैतिक"
+    ],
+    "answer_en": "Instrument, run with training data, recompile with profile",
+    "answer_hi": "इंस्ट्रूमेंट, प्रशिक्षण डेटा के साथ चलाएं, प्रोफाइल के साथ पुनः संकलित करें",
+    "attempted": false,
+    "selected": ""
+  },
+  {
+    "num": 16,
+    "question_en": "What is 'speculative execution' side-channel attacks?",
+    "question_hi": "'स्पेक्युलेटिव एक्ज़िक्यूशन' साइड-चैनल हमले क्या हैं?",
+    "options_en": [
+      "Spectre, Meltdown exploiting branch prediction and cache timing",
+      "No attacks",
+      "Only theoretical",
+      "Not in CPUs"
+    ],
+    "options_hi": [
+      "स्पेक्ट्रे, मेल्टडाउन ब्रांच प्रेडिक्शन और कैश टाइमिंग का शोषण करते हैं",
+      "कोई हमला नहीं",
+      "केवल सैद्धांतिक",
+      "CPU में नहीं"
+    ],
+    "answer_en": "Spectre, Meltdown exploiting branch prediction and cache timing",
+    "answer_hi": "स्पेक्ट्रे, मेल्टडाउन ब्रांच प्रेडिक्शन और कैश टाइमिंग का शोषण करते हैं",
+    "attempted": false,
+    "selected": ""
+  },
+  {
+    "num": 17,
+    "question_en": "What is 'cache prefetching' strategies?",
+    "question_hi": "'कैच प्रीफ़ेचिंग' रणनीतियाँ क्या हैं?",
+    "options_en": [
+      "Hardware prefetch (stream, stride), software __builtin_prefetch",
+      "No prefetching",
+      "Only hardware",
+      "Only software"
+    ],
+    "options_hi": [
+      "हार्डवेयर प्रीफ़ेच (स्ट्रीम, स्ट्राइड), सॉफ्टवेयर __builtin_prefetch",
+      "कोई प्रीफ़ेचिंग नहीं",
+      "केवल हार्डवेयर",
+      "केवल सॉफ्टवेयर"
+    ],
+    "answer_en": "Hardware prefetch (stream, stride), software __builtin_prefetch",
+    "answer_hi": "हार्डवेयर प्रीफ़ेच (स्ट्रीम, स्ट्राइड), सॉफ्टवेयर __builtin_prefetch",
+    "attempted": false,
+    "selected": ""
+  },
+  {
+    "num": 18,
+    "question_en": "What is 'TLB' (Translation Lookaside Buffer) and misses?",
+    "question_hi": "'TLB' (ट्रांसलेशन लुकएसाइड बफर) और मिस क्या है?",
+    "options_en": [
+      "Cache for virtual-to-physical address translation; miss causes page walk",
+      "No TLB",
+      "Only for kernel",
+      "No misses"
+    ],
+    "options_hi": [
+      "वर्चुअल-टू-फिजिकल एड्रेस ट्रांसलेशन के लिए कैश; मिस पेज वॉक का कारण बनता है",
+      "कोई TLB नहीं",
+      "केवल कर्नेल के लिए",
+      "कोई मिस नहीं"
+    ],
+    "answer_en": "Cache for virtual-to-physical address translation; miss causes page walk",
+    "answer_hi": "वर्चुअल-टू-फिजिकल एड्रेस ट्रांसलेशन के लिए कैश; मिस पेज वॉक का कारण बनता है",
+    "attempted": false,
+    "selected": ""
+  },
+  {
+    "num": 19,
+    "question_en": "What is 'memory disambiguation' in out-of-order CPUs?",
+    "question_hi": "आउट-ऑफ-ऑर्डर CPU में 'मेमोरी डिसएम्बिगुइशन' क्या है?",
+    "options_en": [
+      "Hardware determining if memory operations can be reordered; store-to-load forwarding",
+      "No reordering",
+      "Only in-order",
+      "Compiler only"
+    ],
+    "options_hi": [
+      "हार्डवेयर निर्धारित करता है कि क्या मेमोरी ऑपरेशन पुन: क्रमबद्ध किए जा सकते हैं; स्टोर-टू-लोड फॉरवर्डिंग",
+      "कोई पुन: क्रमबद्ध नहीं",
+      "केवल इन-ऑर्डर",
+      "केवल कंपाइलर"
+    ],
+    "answer_en": "Hardware determining if memory operations can be reordered; store-to-load forwarding",
+    "answer_hi": "हार्डवेयर निर्धारित करता है कि क्या मेमोरी ऑपरेशन पुन: क्रमबद्ध किए जा सकते हैं; स्टोर-टू-लोड फॉरवर्डिंग",
+    "attempted": false,
+    "selected": ""
+  },
+  {
+    "num": 20,
+    "question_en": "What is 'cache coherence protocol' states (MESI)?",
+    "question_hi": "'कैश कोहेरेंस प्रोटोकॉल' स्थितियाँ (MESI) क्या हैं?",
+    "options_en": [
+      "Modified, Exclusive, Shared, Invalid; track cache line ownership",
+      "Only valid/invalid",
+      "No states",
+      "Not for coherence"
+    ],
+    "options_hi": [
+      "संशोधित, अनन्य, साझा, अमान्य; कैश लाइन स्वामित्व ट्रैक करें",
+      "केवल वैध/अमान्य",
+      "कोई स्थिति नहीं",
+      "सुसंगति के लिए नहीं"
+    ],
+    "answer_en": "Modified, Exclusive, Shared, Invalid; track cache line ownership",
+    "answer_hi": "संशोधित, अनन्य, साझा, अमान्य; कैश लाइन स्वामित्व ट्रैक करें",
+    "attempted": false,
+    "selected": ""
+  },
+  {
+    "num": 21,
+    "question_en": "What is 'false sharing' detection tools?",
+    "question_hi": "'फॉल्स शेयरिंग' डिटेक्शन टूल्स क्या हैं?",
+    "options_en": [
+      "Perf, VTune, cachegrind; monitor cache misses, contention",
+      "No tools",
+      "Only static analysis",
+      "Compiler warnings"
+    ],
+    "options_hi": [
+      "Perf, VTune, cachegrind; कैश मिस, संघर्ष की निगरानी",
+      "कोई टूल नहीं",
+      "केवल स्थैतिक विश्लेषण",
+      "कंपाइलर चेतावनियाँ"
+    ],
+    "answer_en": "Perf, VTune, cachegrind; monitor cache misses, contention",
+    "answer_hi": "Perf, VTune, cachegrind; कैश मिस, संघर्ष की निगरानी",
+    "attempted": false,
+    "selected": ""
+  },
+  {
+    "num": 22,
+    "question_en": "What is 'memory barrier' types (full, acquire, release)?",
+    "question_hi": "'मेमोरी बैरियर' प्रकार (फुल, एक्वायर, रिलीज़) क्या हैं?",
+    "options_en": [
+      "Full barrier (mfence), acquire barrier (loads), release barrier (stores)",
+      "All same",
+      "Only full",
+      "No types"
+    ],
+    "options_hi": [
+      "फुल बैरियर (mfence), एक्वायर बैरियर (लोड), रिलीज़ बैरियर (स्टोर)",
+      "सभी समान",
+      "केवल फुल",
+      "कोई प्रकार नहीं"
+    ],
+    "answer_en": "Full barrier (mfence), acquire barrier (loads), release barrier (stores)",
+    "answer_hi": "फुल बैरियर (mfence), एक्वायर बैरियर (लोड), रिलीज़ बैरियर (स्टोर)",
+    "attempted": false,
+    "selected": ""
+  },
+  {
+    "num": 23,
+    "question_en": "What is 'RCU' (Read-Copy-Update) synchronization?",
+    "question_hi": "'RCU' (रीड-कॉपी-अपडेट) सिंक्रोनाइज़ेशन क्या है?",
+    "options_en": [
+      "Lock-free reads, deferred reclamation; grace periods, quiescent states",
+      "Lock-based",
+      "Only for writes",
+      "No synchronization"
+    ],
+    "options_hi": [
+      "लॉक-फ्री रीड, विलंबित पुनर्प्राप्ति; ग्रेस अवधि, शांत अवस्थाएं",
+      "लॉक-आधारित",
+      "केवल लिखने के लिए",
+      "कोई सिंक्रोनाइज़ेशन नहीं"
+    ],
+    "answer_en": "Lock-free reads, deferred reclamation; grace periods, quiescent states",
+    "answer_hi": "लॉक-फ्री रीड, विलंबित पुनर्प्राप्ति; ग्रेस अवधि, शांत अवस्थाएं",
+    "attempted": false,
+    "selected": ""
+  },
+  {
+    "num": 24,
+    "question_en": "What is 'ABA problem' solutions (tagged pointers, hazard pointers)?",
+    "question_hi": "'ABA समस्या' समाधान (टैग किए गए पॉइंटर्स, खतरा पॉइंटर्स) क्या हैं?",
+    "options_en": [
+      "Version tags in pointer, hazard pointers for safe memory reclamation",
+      "No solutions",
+      "Only mutexes",
+      "Ignore problem"
+    ],
+    "options_hi": [
+      "पॉइंटर में संस्करण टैग, सुरक्षित मेमोरी पुनर्प्राप्ति के लिए खतरा पॉइंटर्स",
+      "कोई समाधान नहीं",
+      "केवल म्यूटेक्स",
+      "समस्या अनदेखा करें"
+    ],
+    "answer_en": "Version tags in pointer, hazard pointers for safe memory reclamation",
+    "answer_hi": "पॉइंटर में संस्करण टैग, सुरक्षित मेमोरी पुनर्प्राप्ति के लिए खतरा पॉइंटर्स",
+    "attempted": false,
+    "selected": ""
+  },
+  {
+    "num": 25,
+    "question_en": "What is 'priority inheritance' vs 'priority ceiling'?",
+    "question_hi": "'प्राथमिकता विरासत' बनाम 'प्राथमिकता सीलिंग' क्या है?",
+    "options_en": [
+      "Inheritance: low-priority inherits high; Ceiling: pre-defined priority for lock",
+      "Same thing",
+      "Only inheritance",
+      "No difference"
+    ],
+    "options_hi": [
+      "विरासत: निम्न-प्राथमिकता उच्च को विरासत में मिलती है; सीलिंग: लॉक के लिए पूर्वनिर्धारित प्राथमिकता",
+      "एक ही बात",
+      "केवल विरासत",
+      "कोई अंतर नहीं"
+    ],
+    "answer_en": "Inheritance: low-priority inherits high; Ceiling: pre-defined priority for lock",
+    "answer_hi": "विरासत: निम्न-प्राथमिकता उच्च को विरासत में मिलती है; सीलिंग: लॉक के लिए पूर्वनिर्धारित प्राथमिकता",
+    "attempted": false,
+    "selected": ""
+  },
+  {
+    "num": 26,
+    "question_en": "What is 'memory model' for atomics (SC, TSO, relaxed)?",
+    "question_hi": "एटॉमिक्स के लिए 'मेमोरी मॉडल' (SC, TSO, रिलैक्स्ड) क्या है?",
+    "options_en": [
+      "Sequential Consistency (SC), Total Store Order (TSO), relaxed with minimal guarantees",
+      "Only SC",
+      "All same",
+      "No model"
+    ],
+    "options_hi": [
+      "अनुक्रमिक स्थिरता (SC), कुल स्टोर आदेश (TSO), न्यूनतम गारंटी के साथ शिथिल",
+      "केवल SC",
+      "सभी समान",
+      "कोई मॉडल नहीं"
+    ],
+    "answer_en": "Sequential Consistency (SC), Total Store Order (TSO), relaxed with minimal guarantees",
+    "answer_hi": "अनुक्रमिक स्थिरता (SC), कुल स्टोर आदेश (TSO), न्यूनतम गारंटी के साथ शिथिल",
+    "attempted": false,
+    "selected": ""
+  },
+  {
+    "num": 27,
+    "question_en": "What is 'data race' detection tools (ThreadSanitizer, Helgrind)?",
+    "question_hi": "'डेटा रेस' डिटेक्शन टूल्स (ThreadSanitizer, Helgrind) क्या हैं?",
+    "options_en": [
+      "Dynamic analysis tools detecting unsynchronized memory accesses",
+      "No tools",
+      "Only static",
+      "Compiler detects"
+    ],
+    "options_hi": [
+      "गतिशील विश्लेषण टूल असंगत मेमोरी एक्सेस का पता लगाते हैं",
+      "कोई टूल नहीं",
+      "केवल स्थैतिक",
+      "कंपाइलर पता लगाता है"
+    ],
+    "answer_en": "Dynamic analysis tools detecting unsynchronized memory accesses",
+    "answer_hi": "गतिशील विश्लेषण टूल असंगत मेमोरी एक्सेस का पता लगाते हैं",
+    "attempted": false,
+    "selected": ""
+  },
+  {
+    "num": 28,
+    "question_en": "What is 'thread-local storage' implementation (ELF TLS, Windows TLS)?",
+    "question_hi": "'थ्रेड-लोकल स्टोरेज' कार्यान्वयन (ELF TLS, Windows TLS) क्या है?",
+    "options_en": [
+      "ELF: gs/fs segment, Windows: TIB; compiler generates access wrappers",
+      "Same everywhere",
+      "Only stack",
+      "No implementation"
+    ],
+    "options_hi": [
+      "ELF: gs/fs सेगमेंट, Windows: TIB; कंपाइलर एक्सेस रैपर्स उत्पन्न करता है",
+      "हर जगह समान",
+      "केवल स्टैक",
+      "कोई कार्यान्वयन नहीं"
+    ],
+    "answer_en": "ELF: gs/fs segment, Windows: TIB; compiler generates access wrappers",
+    "answer_hi": "ELF: gs/fs सेगमेंट, Windows: TIB; कंपाइलर एक्सेस रैपर्स उत्पन्न करता है",
+    "attempted": false,
+    "selected": ""
+  },
+  {
+    "num": 29,
+    "question_en": "What is 'async-signal-safe' function requirements?",
+    "question_hi": "'एसिंक-सिग्नल-सुरक्षित' फ़ंक्शन आवश्यकताएं क्या हैं?",
+    "options_en": [
+      "Reentrant, non-blocking, no static buffers; only specific functions listed in POSIX",
+      "Any function",
+      "Only printf",
+      "No requirements"
+    ],
+    "options_hi": [
+      "रीएंट्रेंट, गैर-ब्लॉकिंग, कोई स्थैतिक बफर नहीं; केवल POSIX में सूचीबद्ध विशिष्ट कार्य",
+      "कोई भी फ़ंक्शन",
+      "केवल printf",
+      "कोई आवश्यकता नहीं"
+    ],
+    "answer_en": "Reentrant, non-blocking, no static buffers; only specific functions listed in POSIX",
+    "answer_hi": "रीएंट्रेंट, गैर-ब्लॉकिंग, कोई स्थैतिक बफर नहीं; केवल POSIX में सूचीबद्ध विशिष्ट कार्य",
+    "attempted": false,
+    "selected": ""
+  },
+  {
+    "num": 30,
+    "question_en": "What is 'setjmp/longjmp' with automatic variables (stack unwinding)?",
+    "question_hi": "स्वचालित चर (स्टैक अनवाइंडिंग) के साथ 'setjmp/longjmp' क्या है?",
+    "options_en": [
+      "Automatic variables may have undefined values; no destructor calls",
+      "Values preserved",
+      "Destructors called",
+      "Safe for all variables"
+    ],
+    "options_hi": [
+      "स्वचालित चर के अपरिभाषित मान हो सकते हैं; कोई डिस्ट्रक्टर कॉल नहीं",
+      "मान संरक्षित",
+      "डिस्ट्रक्टर कहलाए",
+      "सभी चर के लिए सुरक्षित"
+    ],
+    "answer_en": "Automatic variables may have undefined values; no destructor calls",
+    "answer_hi": "स्वचालित चर के अपरिभाषित मान हो सकते हैं; कोई डिस्ट्रक्टर कॉल नहीं",
+    "attempted": false,
+    "selected": ""
+  },
+  {
+    "num": 31,
+    "question_en": "What is 'floating-point environment' preservation across function calls?",
+    "question_hi": "फ़ंक्शन कॉल में 'फ्लोटिंग-पॉइंट एनवायरनमेंट' संरक्षण क्या है?",
+    "options_en": [
+      "Rounding mode, exceptions may be preserved or changed; implementation-defined",
+      "Always preserved",
+      "Always changed",
+      "No environment"
+    ],
+    "options_hi": [
+      "राउंडिंग मोड, अपवाद संरक्षित या बदले जा सकते हैं; कार्यान्वयन-परिभाषित",
+      "हमेशा संरक्षित",
+      "हमेशा बदला हुआ",
+      "कोई वातावरण नहीं"
+    ],
+    "answer_en": "Rounding mode, exceptions may be preserved or changed; implementation-defined",
+    "answer_hi": "राउंडिंग मोड, अपवाद संरक्षित या बदले जा सकते हैं; कार्यान्वयन-परिभाषित",
+    "attempted": false,
+    "selected": ""
+  },
+  {
+    "num": 32,
+    "question_en": "What is 'contract programming' with GCC '__attribute__((contract))'?",
+    "question_hi": "GCC '__attribute__((contract))' के साथ 'कॉन्ट्रैक्ट प्रोग्रामिंग' क्या है?",
+    "options_en": [
+      "GCC extension for pre/post conditions; not standard C",
+      "Standard feature",
+      "Only in C++",
+      "No such attribute"
+    ],
+    "options_hi": [
+      "पूर्व/पोस्ट शर्तों के लिए GCC एक्सटेंशन; मानक C नहीं",
+      "मानक सुविधा",
+      "केवल C++ में",
+      "ऐसी कोई विशेषता नहीं"
+    ],
+    "answer_en": "GCC extension for pre/post conditions; not standard C",
+    "answer_hi": "पूर्व/पोस्ट शर्तों के लिए GCC एक्सटेंशन; मानक C नहीं",
+    "attempted": false,
+    "selected": ""
+  },
+  {
+    "num": 33,
+    "question_en": "What is 'defensive programming' for integer overflow?",
+    "question_hi": "पूर्णांक अतिप्रवाह के लिए 'रक्षात्मक प्रोग्रामिंग' क्या है?",
+    "options_en": [
+      "Checked addition (__builtin_add_overflow), saturation, big integer libraries",
+      "Ignore overflow",
+      "Only for signed",
+      "No defense"
+    ],
+    "options_hi": [
+      "जाँच की गई जोड़ (__builtin_add_overflow), संतृप्ति, बड़ा पूर्णांक पुस्तकालय",
+      "ओवरफ्लो अनदेखा करें",
+      "केवल साइनड के लिए",
+      "कोई बचाव नहीं"
+    ],
+    "answer_en": "Checked addition (__builtin_add_overflow), saturation, big integer libraries",
+    "answer_hi": "जाँच की गई जोड़ (__builtin_add_overflow), संतृप्ति, बड़ा पूर्णांक पुस्तकालय",
+    "attempted": false,
+    "selected": ""
+  },
+  {
+    "num": 34,
+    "question_en": "What is 'const correctness' for pointer parameters?",
+    "question_hi": "पॉइंटर पैरामीटर के लिए 'कॉन्स्ट करेक्टनेस' क्या है?",
+    "options_en": [
+      "const T* vs T* const vs const T* const; different protections",
+      "All same",
+      "Only const T*",
+      "No protection"
+    ],
+    "options_hi": [
+      "const T* बनाम T* const बनाम const T* const; विभिन्न सुरक्षा",
+      "सभी समान",
+      "केवल const T*",
+      "कोई सुरक्षा नहीं"
+    ],
+    "answer_en": "const T* vs T* const vs const T* const; different protections",
+    "answer_hi": "const T* बनाम T* const बनाम const T* const; विभिन्न सुरक्षा",
+    "attempted": false,
+    "selected": ""
+  },
+  {
+    "num": 35,
+    "question_en": "What is 'RAII pattern' in C using cleanup attribute?",
+    "question_hi": "क्लीनअप विशेषता का उपयोग कर C में 'RAII पैटर्न' क्या है?",
+    "options_en": [
+      "__attribute__((cleanup)) calls function when variable goes out of scope",
+      "No RAII in C",
+      "Only destructors",
+      "Not possible"
+    ],
+    "options_hi": [
+      "__attribute__((cleanup)) फ़ंक्शन को कॉल करता है जब वेरिएबल स्कोप से बाहर जाता है",
+      "C में कोई RAII नहीं",
+      "केवल डिस्ट्रक्टर",
+      "संभव नहीं"
+    ],
+    "answer_en": "__attribute__((cleanup)) calls function when variable goes out of scope",
+    "answer_hi": "__attribute__((cleanup)) फ़ंक्शन को कॉल करता है जब वेरिएबल स्कोप से बाहर जाता है",
+    "attempted": false,
+    "selected": ""
+  },
+  {
+    "num": 36,
+    "question_en": "What is 'design by contract' using ASSERT macros?",
+    "question_hi": "ASSERT मैक्रो का उपयोग कर 'कॉन्ट्रैक्ट द्वारा डिज़ाइन' क्या है?",
+    "options_en": [
+      "Custom ASSERT with pre/post conditions; disabled in release with NDEBUG",
+      "Only standard assert",
+      "Always enabled",
+      "No macros"
+    ],
+    "options_hi": [
+      "पूर्व/पोस्ट शर्तों के साथ कस्टम ASSERT; NDEBUG के साथ रिलीज़ में अक्षम",
+      "केवल मानक अभिकथन",
+      "हमेशा सक्षम",
+      "कोई मैक्रो नहीं"
+    ],
+    "answer_en": "Custom ASSERT with pre/post conditions; disabled in release with NDEBUG",
+    "answer_hi": "पूर्व/पोस्ट शर्तों के साथ कस्टम ASSERT; NDEBUG के साथ रिलीज़ में अक्षम",
+    "attempted": false,
+    "selected": ""
+  },
+  {
+    "num": 37,
+    "question_en": "What is 'assert' vs 'static_assert' in C11?",
+    "question_hi": "C11 में 'assert' बनाम 'static_assert' क्या है?",
+    "options_en": [
+      "assert runtime check; static_assert compile-time check",
+      "Both runtime",
+      "Both compile-time",
+      "Same thing"
+    ],
+    "options_hi": [
+      "assert रनटाइम चेक; static_assert कंपाइल-टाइम चेक",
+      "दोनों रनटाइम",
+      "दोनों कंपाइल-टाइम",
+      "एक ही बात"
+    ],
+    "answer_en": "assert runtime check; static_assert compile-time check",
+    "answer_hi": "assert रनटाइम चेक; static_assert कंपाइल-टाइम चेक",
+    "attempted": false,
+    "selected": ""
+  },
+  {
+    "num": 38,
+    "question_en": "What is 'errno' thread-local implementation?",
+    "question_hi": "'errno' थ्रेड-लोकल कार्यान्वयन क्या है?",
+    "options_en": [
+      "Macro expanding to (*__errno_location()); each thread has separate storage",
+      "Global variable",
+      "Shared between threads",
+      "No implementation"
+    ],
+    "options_hi": [
+      "मैक्रो (*__errno_location()) का विस्तार; प्रत्येक थ्रेड के पास अलग स्टोरेज है",
+      "वैश्विक चर",
+      "थ्रेड के बीच साझा",
+      "कोई कार्यान्वयन नहीं"
+    ],
+    "answer_en": "Macro expanding to (*__errno_location()); each thread has separate storage",
+    "answer_hi": "मैक्रो (*__errno_location()) का विस्तार; प्रत्येक थ्रेड के पास अलग स्टोरेज है",
+    "attempted": false,
+    "selected": ""
+  },
+  {
+    "num": 39,
+    "question_en": "What is 'locale' impact on wide character functions?",
+    "question_hi": "वाइड कैरेक्टर फ़ंक्शन पर 'लोकेल' प्रभाव क्या है?",
+    "options_en": [
+      "Affects wcscoll, wcsxfrm collation; encoding conversion",
+      "No impact",
+      "Only narrow chars",
+      "Not for wide"
+    ],
+    "options_hi": [
+      "wcscoll, wcsxfrm कोलेशन को प्रभावित करता है; एन्कोडिंग रूपांतरण",
+      "कोई प्रभाव नहीं",
+      "केवल संकीर्ण वर्ण",
+      "वाइड के लिए नहीं"
+    ],
+    "answer_en": "Affects wcscoll, wcsxfrm collation; encoding conversion",
+    "answer_hi": "wcscoll, wcsxfrm कोलेशन को प्रभावित करता है; एन्कोडिंग रूपांतरण",
+    "attempted": false,
+    "selected": ""
+  },
+  {
+    "num": 40,
+    "question_en": "What is 'UTF-8' validation and security issues?",
+    "question_hi": "'UTF-8' सत्यापन और सुरक्षा मुद्दे क्या हैं?",
+    "options_en": [
+      "Overlong encodings, surrogate pairs; can bypass security checks",
+      "No issues",
+      "Always valid",
+      "No security"
+    ],
+    "options_hi": [
+      "अतिलंबित एन्कोडिंग, सरोगेट जोड़े; सुरक्षा जाँच को बायपास कर सकते हैं",
+      "कोई मुद्दा नहीं",
+      "हमेशा वैध",
+      "कोई सुरक्षा नहीं"
+    ],
+    "answer_en": "Overlong encodings, surrogate pairs; can bypass security checks",
+    "answer_hi": "अतिलंबित एन्कोडिंग, सरोगेट जोड़े; सुरक्षा जाँच को बायपास कर सकते हैं",
+    "attempted": false,
+    "selected": ""
+  },
+  {
+    "num": 41,
+    "question_en": "What is 'endianness' detection at compile-time?",
+    "question_hi": "कंपाइल-टाइम पर 'एंडियननेस' का पता लगाना क्या है?",
+    "options_en": [
+      "#if __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__; platform macros",
+      "Runtime only",
+      "No detection",
+      "Always little"
+    ],
+    "options_hi": [
+      "#if __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__; प्लेटफ़ॉर्म मैक्रो",
+      "केवल रनटाइम",
+      "कोई पता लगाना नहीं",
+      "हमेशा छोटा"
+    ],
+    "answer_en": "#if __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__; platform macros",
+    "answer_hi": "#if __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__; प्लेटफ़ॉर्म मैक्रो",
+    "attempted": false,
+    "selected": ""
+  },
+  {
+    "num": 42,
+    "question_en": "What is 'strict aliasing' with bitfields?",
+    "question_hi": "बिटफ़ील्ड के साथ 'स्ट्रिक्ट एलियासिंग' क्या है?",
+    "options_en": [
+      "Accessing bitfield through incompatible pointer is UB; implementation-defined layout",
+      "Allowed",
+      "Only through char*",
+      "No UB"
+    ],
+    "options_hi": [
+      "असंगत पॉइंटर के माध्यम से बिटफ़ील्ड एक्सेस करना UB है; कार्यान्वयन-परिभाषित लेआउट",
+      "अनुमति",
+      "केवल char* के माध्यम से",
+      "कोई UB नहीं"
+    ],
+    "answer_en": "Accessing bitfield through incompatible pointer is UB; implementation-defined layout",
+    "answer_hi": "असंगत पॉइंटर के माध्यम से बिटफ़ील्ड एक्सेस करना UB है; कार्यान्वयन-परिभाषित लेआउट",
+    "attempted": false,
+    "selected": ""
+  },
+  {
+    "num": 43,
+    "question_en": "What is 'flexible array member' vs zero-length array?",
+    "question_hi": "'फ्लेक्सिबल ऐरे मेंबर' बनाम शून्य-लंबाई ऐरे क्या है?",
+    "options_en": [
+      "FAM standard C99; zero-length GCC extension; different sizeof behavior",
+      "Same thing",
+      "Only FAM allowed",
+      "No difference"
+    ],
+    "options_hi": [
+      "FAM मानक C99; शून्य-लंबाई GCC एक्सटेंशन; अलग sizeof व्यवहार",
+      "एक ही बात",
+      "केवल FAM अनुमत",
+      "कोई अंतर नहीं"
+    ],
+    "answer_en": "FAM standard C99; zero-length GCC extension; different sizeof behavior",
+    "answer_hi": "FAM मानक C99; शून्य-लंबाई GCC एक्सटेंशन; अलग sizeof व्यवहार",
+    "attempted": false,
+    "selected": ""
+  },
+  {
+    "num": 44,
+    "question_en": "What is 'designated initializers' for arrays?",
+    "question_hi": "ऐरे के लिए 'नामित प्रारंभिक' क्या हैं?",
+    "options_en": [
+      "[index] = value; can initialize specific elements, others zero-initialized",
+      "Not for arrays",
+      "Only for structs",
+      "All elements set"
+    ],
+    "options_hi": [
+      "[index] = value; विशिष्ट तत्वों को प्रारंभ कर सकते हैं, अन्य शून्य-प्रारंभ",
+      "ऐरे के लिए नहीं",
+      "केवल स्ट्रक्चर के लिए",
+      "सभी तत्व सेट"
+    ],
+    "answer_en": "[index] = value; can initialize specific elements, others zero-initialized",
+    "answer_hi": "[index] = value; विशिष्ट तत्वों को प्रारंभ कर सकते हैं, अन्य शून्य-प्रारंभ",
+    "attempted": false,
+    "selected": ""
+  },
+  {
+    "num": 45,
+    "question_en": "What is 'compound literals' lifetime?",
+    "question_hi": "'यौगिक शाब्दिक' जीवनकाल क्या है?",
+    "options_en": [
+      "Automatic storage if in block scope; static if file scope",
+      "Always static",
+      "Always heap",
+      "No lifetime"
+    ],
+    "options_hi": [
+      "स्वचालित भंडारण यदि ब्लॉक स्कोप में; स्थैतिक यदि फ़ाइल स्कोप",
+      "हमेशा स्थैतिक",
+      "हमेशा ढेर",
+      "कोई जीवनकाल नहीं"
+    ],
+    "answer_en": "Automatic storage if in block scope; static if file scope",
+    "answer_hi": "स्वचालित भंडारण यदि ब्लॉक स्कोप में; स्थैतिक यदि फ़ाइल स्कोप",
+    "attempted": false,
+    "selected": ""
+  },
+  {
+    "num": 46,
+    "question_en": "What is 'VLA' (Variable Length Array) alloca() comparison?",
+    "question_hi": "'VLA' (परिवर्तनशील लंबाई ऐरे) alloca() तुलना क्या है?",
+    "options_en": [
+      "VLA standard C99; alloca() compiler extension; similar stack allocation",
+      "Same thing",
+      "Only VLA",
+      "No comparison"
+    ],
+    "options_hi": [
+      "VLA मानक C99; alloca() कंपाइलर एक्सटेंशन; समान स्टैक आवंटन",
+      "एक ही बात",
+      "केवल VLA",
+      "कोई तुलना नहीं"
+    ],
+    "answer_en": "VLA standard C99; alloca() compiler extension; similar stack allocation",
+    "answer_hi": "VLA मानक C99; alloca() कंपाइलर एक्सटेंशन; समान स्टैक आवंटन",
+    "attempted": false,
+    "selected": ""
+  },
+  {
+    "num": 47,
+    "question_en": "What is 'restrict' and loop vectorization?",
+    "question_hi": "'रिस्ट्रिक्ट' और लूप वेक्टराइजेशन क्या है?",
+    "options_en": [
+      "restrict enables auto-vectorization by promising no pointer aliasing",
+      "No effect",
+      "Prevents vectorization",
+      "Only for manual"
+    ],
+    "options_hi": [
+      "रिस्ट्रिक्ट कोई पॉइंटर एलियासिंग न होने का वादा करके ऑटो-वेक्टराइजेशन सक्षम करता है",
+      "कोई प्रभाव नहीं",
+      "वेक्टराइजेशन को रोकता है",
+      "केवल मैनुअल के लिए"
+    ],
+    "answer_en": "restrict enables auto-vectorization by promising no pointer aliasing",
+    "answer_hi": "रिस्ट्रिक्ट कोई पॉइंटर एलियासिंग न होने का वादा करके ऑटो-वेक्टराइजेशन सक्षम करता है",
+    "attempted": false,
+    "selected": ""
+  },
+  {
+    "num": 48,
+    "question_en": "What is 'inline' vs 'static inline' linkage?",
+    "question_hi": "'इनलाइन' बनाम 'स्थैतिक इनलाइन' लिंकेज क्या है?",
+    "options_en": [
+      "inline: external linkage, multiple definitions; static inline: internal linkage",
+      "Same linkage",
+      "Only inline",
+      "No linkage difference"
+    ],
+    "options_hi": [
+      "इनलाइन: बाहरी लिंकेज, एकाधिक परिभाषाएँ; स्थैतिक इनलाइन: आंतरिक लिंकेज",
+      "समान लिंकेज",
+      "केवल इनलाइन",
+      "कोई लिंकेज अंतर नहीं"
+    ],
+    "answer_en": "inline: external linkage, multiple definitions; static inline: internal linkage",
+    "answer_hi": "इनलाइन: बाहरी लिंकेज, एकाधिक परिभाषाएँ; स्थैतिक इनलाइन: आंतरिक लिंकेज",
+    "attempted": false,
+    "selected": ""
+  },
+  {
+    "num": 49,
+    "question_en": "What is 'static' for array parameters?",
+    "question_hi": "ऐरे पैरामीटर के लिए 'स्थैतिक' क्या है?",
+    "options_en": [
+      "void f(int a[static 10]); guarantees at least 10 elements",
+      "No meaning",
+      "Same as normal",
+      "Not allowed"
+    ],
+    "options_hi": [
+      "void f(int a[static 10]); कम से कम 10 तत्वों की गारंटी",
+      "कोई अर्थ नहीं",
+      "सामान्य के समान",
+      "अनुमति नहीं"
+    ],
+    "answer_en": "void f(int a[static 10]); guarantees at least 10 elements",
+    "answer_hi": "void f(int a[static 10]); कम से कम 10 तत्वों की गारंटी",
+    "attempted": false,
+    "selected": ""
+  },
+  {
+    "num": 50,
+    "question_en": "What is 'extern' with 'C' linkage?",
+    "question_hi": "'C' लिंकेज के साथ 'extern' क्या है?",
+    "options_en": [
+      "extern \"C\" { ... }; C++ feature for C linkage; not in C",
+      "Standard C",
+      "Only for C++",
+      "No such syntax"
+    ],
+    "options_hi": [
+      "extern \"C\" { ... }; C लिंकेज के लिए C++ सुविधा; C में नहीं",
+      "मानक C",
+      "केवल C++ के लिए",
+      "ऐसा कोई सिंटैक्स नहीं"
+    ],
+    "answer_en": "extern \"C\" { ... }; C++ feature for C linkage; not in C",
+    "answer_hi": "extern \"C\" { ... }; C लिंकेज के लिए C++ सुविधा; C में नहीं",
+    "attempted": false,
+    "selected": ""
+  },
+  {
+    "num": 51,
+    "question_en": "What is 'typedef' for function pointers?",
+    "question_hi": "फ़ंक्शन पॉइंटर्स के लिए 'typedef' क्या है?",
+    "options_en": [
+      "typedef int (*func_ptr)(int); creates readable function pointer type",
+      "Not for pointers",
+      "Only for variables",
+      "No typedef"
+    ],
+    "options_hi": [
+      "typedef int (*func_ptr)(int); पठनीय फ़ंक्शन पॉइंटर प्रकार बनाता है",
+      "पॉइंटर्स के लिए नहीं",
+      "केवल चर के लिए",
+      "कोई typedef नहीं"
+    ],
+    "answer_en": "typedef int (*func_ptr)(int); creates readable function pointer type",
+    "answer_hi": "typedef int (*func_ptr)(int); पठनीय फ़ंक्शन पॉइंटर प्रकार बनाता है",
+    "attempted": false,
+    "selected": ""
+  },
+  {
+    "num": 52,
+    "question_en": "What is '__attribute__((aligned))' vs '_Alignas'?",
+    "question_hi": "'__attribute__((aligned))' बनाम '_Alignas' क्या है?",
+    "options_en": [
+      "attribute: GCC extension; _Alignas: C11 standard; both control alignment",
+      "Same thing",
+      "Only attribute",
+      "No alignment"
+    ],
+    "options_hi": [
+      "विशेषता: GCC एक्सटेंशन; _Alignas: C11 मानक; दोनों संरेखण नियंत्रण",
+      "एक ही बात",
+      "केवल विशेषता",
+      "कोई संरेखण नहीं"
+    ],
+    "answer_en": "attribute: GCC extension; _Alignas: C11 standard; both control alignment",
+    "answer_hi": "विशेषता: GCC एक्सटेंशन; _Alignas: C11 मानक; दोनों संरेखण नियंत्रण",
+    "attempted": false,
+    "selected": ""
+  },
+  {
+    "num": 53,
+    "question_en": "What is '#pragma pack' push/pop?",
+    "question_hi": "'#pragma pack' पुश/पॉप क्या है?",
+    "options_en": [
+      "#pragma pack(push, n) save alignment, set new; #pragma pack(pop) restore",
+      "No push/pop",
+      "Only set",
+      "Not in C"
+    ],
+    "options_hi": [
+      "#pragma pack(push, n) संरेखण सहेजें, नया सेट करें; #pragma pack(pop) पुनर्स्थापित",
+      "कोई पुश/पॉप नहीं",
+      "केवल सेट",
+      "C में नहीं"
+    ],
+    "answer_en": "#pragma pack(push, n) save alignment, set new; #pragma pack(pop) restore",
+    "answer_hi": "#pragma pack(push, n) संरेखण सहेजें, नया सेट करें; #pragma pack(pop) पुनर्स्थापित",
+    "attempted": false,
+    "selected": ""
+  },
+  {
+    "num": 54,
+    "question_en": "What is 'preprocessor' token pasting (##)?",
+    "question_hi": "'प्रीप्रोसेसर' टोकन पेस्टिंग (##) क्या है?",
+    "options_en": [
+      "Concatenates tokens: a ## b becomes ab; used in macro expansion",
+      "String concatenation",
+      "Not in C",
+      "No pasting"
+    ],
+    "options_hi": [
+      "टोकन को जोड़ता है: a ## b ab बन जाता है; मैक्रो विस्तार में उपयोग किया जाता है",
+      "स्ट्रिंग संयोजन",
+      "C में नहीं",
+      "कोई पेस्टिंग नहीं"
+    ],
+    "answer_en": "Concatenates tokens: a ## b becomes ab; used in macro expansion",
+    "answer_hi": "टोकन को जोड़ता है: a ## b ab बन जाता है; मैक्रो विस्तार में उपयोग किया जाता है",
+    "attempted": false,
+    "selected": ""
+  },
+  {
+    "num": 55,
+    "question_en": "What is 'preprocessor' stringizing (#)?",
+    "question_hi": "'प्रीप्रोसेसर' स्ट्रिंगाइज़िंग (#) क्या है?",
+    "options_en": [
+      "Converts token to string: #x becomes \"x\"; creates string literals",
+      "Not in C",
+      "Only for chars",
+      "No stringizing"
+    ],
+    "options_hi": [
+      "टोकन को स्ट्रिंग में बदलता है: #x \"x\" बन जाता है; स्ट्रिंग शाब्दिक बनाता है",
+      "C में नहीं",
+      "केवल वर्णों के लिए",
+      "कोई स्ट्रिंगाइज़िंग नहीं"
+    ],
+    "answer_en": "Converts token to string: #x becomes \"x\"; creates string literals",
+    "answer_hi": "टोकन को स्ट्रिंग में बदलता है: #x \"x\" बन जाता है; स्ट्रिंग शाब्दिक बनाता है",
+    "attempted": false,
+    "selected": ""
+  },
+  {
+    "num": 56,
+    "question_en": "What is 'preprocessor' _Pragma operator?",
+    "question_hi": "'प्रीप्रोसेसर' _Pragma ऑपरेटर क्या है?",
+    "options_en": [
+      "C99 operator: _Pragma(\"pack(1)\") equivalent to #pragma pack(1)",
+      "Not in C",
+      "Only #pragma",
+      "No operator"
+    ],
+    "options_hi": [
+      "C99 ऑपरेटर: _Pragma(\"pack(1)\") #pragma pack(1) के बराबर",
+      "C में नहीं",
+      "केवल #pragma",
+      "कोई ऑपरेटर नहीं"
+    ],
+    "answer_en": "C99 operator: _Pragma(\"pack(1)\") equivalent to #pragma pack(1)",
+    "answer_hi": "C99 ऑपरेटर: _Pragma(\"pack(1)\") #pragma pack(1) के बराबर",
+    "attempted": false,
+    "selected": ""
+  },
+  {
+    "num": 57,
+    "question_en": "What is 'linker' section attribute?",
+    "question_hi": "'लिंकर' सेक्शन विशेषता क्या है?",
+    "options_en": [
+      "__attribute__((section(\".mysection\"))) places variable/function in specific section",
+      "Not in C",
+      "Only for code",
+      "No sections"
+    ],
+    "options_hi": [
+      "__attribute__((section(\".mysection\"))) विशिष्ट खंड में चर/फ़ंक्शन रखता है",
+      "C में नहीं",
+      "केवल कोड के लिए",
+      "कोई अनुभाग नहीं"
+    ],
+    "answer_en": "__attribute__((section(\".mysection\"))) places variable/function in specific section",
+    "answer_hi": "__attribute__((section(\".mysection\"))) विशिष्ट खंड में चर/फ़ंक्शन रखता है",
+    "attempted": false,
+    "selected": ""
+  },
+  {
+    "num": 58,
+    "question_en": "What is 'linker' weak symbol?",
+    "question_hi": "'लिंकर' कमजोर प्रतीक क्या है?",
+    "options_en": [
+      "__attribute__((weak)) allows undefined reference; stronger symbol overrides",
+      "Not in C",
+      "Only for functions",
+      "No weak symbols"
+    ],
+    "options_hi": [
+      "__attribute__((weak)) अपरिभाषित संदर्भ की अनुमति देता है; मजबूत प्रतीक ओवरराइड करता है",
+      "C में नहीं",
+      "केवल फ़ंक्शन के लिए",
+      "कोई कमजोर प्रतीक नहीं"
+    ],
+    "answer_en": "__attribute__((weak)) allows undefined reference; stronger symbol overrides",
+    "answer_hi": "__attribute__((weak)) अपरिभाषित संदर्भ की अनुमति देता है; मजबूत प्रतीक ओवरराइड करता है",
+    "attempted": false,
+    "selected": ""
+  },
+  {
+    "num": 59,
+    "question_en": "What is 'linker' visibility attribute?",
+    "question_hi": "'लिंकर' दृश्यता विशेषता क्या है?",
+    "options_en": [
+      "__attribute__((visibility(\"hidden\"))) limits symbol export; reduces dynamic linking overhead",
+      "Not in C",
+      "Only for variables",
+      "No visibility"
+    ],
+    "options_hi": [
+      "__attribute__((visibility(\"hidden\"))) प्रतीक निर्यात सीमित करता है; गतिशील लिंकिंग ओवरहेड कम करता है",
+      "C में नहीं",
+      "केवल चर के लिए",
+      "कोई दृश्यता नहीं"
+    ],
+    "answer_en": "__attribute__((visibility(\"hidden\"))) limits symbol export; reduces dynamic linking overhead",
+    "answer_hi": "__attribute__((visibility(\"hidden\"))) प्रतीक निर्यात सीमित करता है; गतिशील लिंकिंग ओवरहेड कम करता है",
+    "attempted": false,
+    "selected": ""
+  },
+  {
+    "num": 60,
+    "question_en": "What is 'dynamic linking' PLT/GOT?",
+    "question_hi": "'डायनामिक लिंकिंग' PLT/GOT क्या है?",
+    "options_en": [
+      "Procedure Linkage Table (PLT), Global Offset Table (GOT); enable position-independent code",
+      "Not in C",
+      "Only static",
+      "No tables"
+    ],
+    "options_hi": [
+      "प्रक्रिया लिंकेज तालिका (PLT), वैश्विक ऑफसेट तालिका (GOT); स्थिति-स्वतंत्र कोड सक्षम करें",
+      "C में नहीं",
+      "केवल स्थैतिक",
+      "कोई तालिका नहीं"
+    ],
+    "answer_en": "Procedure Linkage Table (PLT), Global Offset Table (GOT); enable position-independent code",
+    "answer_hi": "प्रक्रिया लिंकेज तालिका (PLT), वैश्विक ऑफसेट तालिका (GOT); स्थिति-स्वतंत्र कोड सक्षम करें",
+    "attempted": false,
+    "selected": ""
+  },
+  {
+    "num": 61,
+    "question_en": "What is 'position independent code' (PIC) cost?",
+    "question_hi": "'पोजिशन इंडिपेंडेंट कोड' (PIC) लागत क्या है?",
+    "options_en": [
+      "Extra indirection through GOT; slower, but enables shared libraries",
+      "No cost",
+      "Faster",
+      "Not for shared"
+    ],
+    "options_hi": [
+      "GOT के माध्यम से अतिरिक्त अप्रत्यक्षता; धीमी, लेकिन साझा लाइब्रेरी सक्षम करता है",
+      "कोई लागत नहीं",
+      "तेज़",
+      "साझा के लिए नहीं"
+    ],
+    "answer_en": "Extra indirection through GOT; slower, but enables shared libraries",
+    "answer_hi": "GOT के माध्यम से अतिरिक्त अप्रत्यक्षता; धीमी, लेकिन साझा लाइब्रेरी सक्षम करता है",
+    "attempted": false,
+    "selected": ""
+  },
+  {
+    "num": 62,
+    "question_en": "What is 'stack protector' canary types?",
+    "question_hi": "'स्टैक प्रोटेक्टर' कैनेरी प्रकार क्या हैं?",
+    "options_en": [
+      "Terminator, random, XOR random; guard against stack overflow",
+      "Only one type",
+      "No canaries",
+      "Not for stack"
+    ],
+    "options_hi": [
+      "टर्मिनेटर, रैंडम, XOR रैंडम; स्टैक ओवरफ्लो के खिलाफ रक्षा",
+      "केवल एक प्रकार",
+      "कोई कैनेरी नहीं",
+      "स्टैक के लिए नहीं"
+    ],
+    "answer_en": "Terminator, random, XOR random; guard against stack overflow",
+    "answer_hi": "टर्मिनेटर, रैंडम, XOR रैंडम; स्टैक ओवरफ्लो के खिलाफ रक्षा",
+    "attempted": false,
+    "selected": ""
+  },
+  {
+    "num": 63,
+    "question_en": "What is 'AddressSanitizer' (ASan) shadow memory?",
+    "question_hi": "'AddressSanitizer' (ASan) शैडो मेमोरी क्या है?",
+    "options_en": [
+      "1 byte shadow for 8 bytes application; tracks validity, detects use-after-free",
+      "No shadow",
+      "1:1 mapping",
+      "Not for memory"
+    ],
+    "options_hi": [
+      "8 बाइट्स एप्लिकेशन के लिए 1 बाइट छाया; वैधता ट्रैक करता है, यूज़-आफ्टर-फ्री का पता लगाता है",
+      "कोई छाया नहीं",
+      "1:1 मैपिंग",
+      "मेमोरी के लिए नहीं"
+    ],
+    "answer_en": "1 byte shadow for 8 bytes application; tracks validity, detects use-after-free",
+    "answer_hi": "8 बाइट्स एप्लिकेशन के लिए 1 बाइट छाया; वैधता ट्रैक करता है, यूज़-आफ्टर-फ्री का पता लगाता है",
+    "attempted": false,
+    "selected": ""
+  },
+  {
+    "num": 64,
+    "question_en": "What is 'UndefinedBehaviorSanitizer' (UBSan) checks?",
+    "question_hi": "'UndefinedBehaviorSanitizer' (UBSan) जाँच क्या हैं?",
+    "options_en": [
+      "Integer overflow, null pointer, alignment, bounds; runtime detection",
+      "No checks",
+      "Only overflow",
+      "Compile-time"
+    ],
+    "options_hi": [
+      "पूर्णांक अतिप्रवाह, शून्य सूचक, संरेखण, सीमाएँ; रनटाइम का पता लगाना",
+      "कोई जाँच नहीं",
+      "केवल अतिप्रवाह",
+      "कंपाइल-टाइम"
+    ],
+    "answer_en": "Integer overflow, null pointer, alignment, bounds; runtime detection",
+    "answer_hi": "पूर्णांक अतिप्रवाह, शून्य सूचक, संरेखण, सीमाएँ; रनटाइम का पता लगाना",
+    "attempted": false,
+    "selected": ""
+  },
+  {
+    "num": 65,
+    "question_en": "What is 'ThreadSanitizer' (TSan) happens-before?",
+    "question_hi": "'ThreadSanitizer' (TSan) हैपेंस-बिफोर क्या है?",
+    "options_en": [
+      "Vector clocks tracking synchronization; detect data races",
+      "No tracking",
+      "Only locks",
+      "Not for races"
+    ],
+    "options_hi": [
+      "वेक्टर घड़ियाँ सिंक्रोनाइज़ेशन ट्रैकिंग; डेटा रेस का पता लगाएं",
+      "कोई ट्रैकिंग नहीं",
+      "केवल लॉक",
+      "रेस के लिए नहीं"
+    ],
+    "answer_en": "Vector clocks tracking synchronization; detect data races",
+    "answer_hi": "वेक्टर घड़ियाँ सिंक्रोनाइज़ेशन ट्रैकिंग; डेटा रेस का पता लगाएं",
+    "attempted": false,
+    "selected": ""
+  },
+  {
+    "num": 66,
+    "question_en": "What is 'MemorySanitizer' (MSan) uninitialized memory?",
+    "question_hi": "'MemorySanitizer' (MSan) अप्रारंभिक मेमोरी क्या है?",
+    "options_en": [
+      "Tracks initialized bits; detects use of uninitialized values",
+      "No tracking",
+      "Only stack",
+      "Not for memory"
+    ],
+    "options_hi": [
+      "प्रारंभिक बिट्स ट्रैक करता है; अप्रारंभिक मानों के उपयोग का पता लगाता है",
+      "कोई ट्रैकिंग नहीं",
+      "केवल स्टैक",
+      "मेमोरी के लिए नहीं"
+    ],
+    "answer_en": "Tracks initialized bits; detects use of uninitialized values",
+    "answer_hi": "प्रारंभिक बिट्स ट्रैक करता है; अप्रारंभिक मानों के उपयोग का पता लगाता है",
+    "attempted": false,
+    "selected": ""
+  },
+  {
+    "num": 67,
+    "question_en": "What is 'LeakSanitizer' (LSan) root set?",
+    "question_hi": "'LeakSanitizer' (LSan) रूट सेट क्या है?",
+    "options_en": [
+      "Global variables, registers, stack; starting points for reachable memory",
+      "No root set",
+      "Only heap",
+      "Not for leaks"
+    ],
+    "options_hi": [
+      "वैश्विक चर, रजिस्टर, स्टैक; पहुंच योग्य मेमोरी के लिए शुरुआती बिंदु",
+      "कोई रूट सेट नहीं",
+      "केवल ढेर",
+      "लीक के लिए नहीं"
+    ],
+    "answer_en": "Global variables, registers, stack; starting points for reachable memory",
+    "answer_hi": "वैश्विक चर, रजिस्टर, स्टैक; पहुंच योग्य मेमोरी के लिए शुरुआती बिंदु",
+    "attempted": false,
+    "selected": ""
+  },
+  {
+    "num": 68,
+    "question_en": "What is 'control flow integrity' (CFI) forward-edge?",
+    "question_hi": "'कंट्रोल फ्लो इंटीग्रिटी' (CFI) फॉरवर्ड-एज क्या है?",
+    "options_en": [
+      "Validates indirect calls/jumps; prevents code reuse attacks",
+      "No validation",
+      "Only returns",
+      "Not for security"
+    ],
+    "options_hi": [
+      "अप्रत्यक्ष कॉल/कूद सत्यापित करता है; कोड पुन: उपयोग हमलों को रोकता है",
+      "कोई सत्यापन नहीं",
+      "केवल रिटर्न",
+      "सुरक्षा के लिए नहीं"
+    ],
+    "answer_en": "Validates indirect calls/jumps; prevents code reuse attacks",
+    "answer_hi": "अप्रत्यक्ष कॉल/कूद सत्यापित करता है; कोड पुन: उपयोग हमलों को रोकता है",
+    "attempted": false,
+    "selected": ""
+  },
+  {
+    "num": 69,
+    "question_en": "What is 'shadow call stack' for return addresses?",
+    "question_hi": "रिटर्न एड्रेस के लिए 'शैडो कॉल स्टैक' क्या है?",
+    "options_en": [
+      "Separate stack for return addresses; protected from overflow",
+      "No shadow",
+      "Only for data",
+      "Not for returns"
+    ],
+    "options_hi": [
+      "रिटर्न एड्रेस के लिए अलग स्टैक; ओवरफ्लो से सुरक्षित",
+      "कोई छाया नहीं",
+      "केवल डेटा के लिए",
+      "रिटर्न के लिए नहीं"
+    ],
+    "answer_en": "Separate stack for return addresses; protected from overflow",
+    "answer_hi": "रिटर्न एड्रेस के लिए अलग स्टैक; ओवरफ्लो से सुरक्षित",
+    "attempted": false,
+    "selected": ""
+  },
+  {
+    "num": 70,
+    "question_en": "What is 'safe stack' for vulnerable variables?",
+    "question_hi": "कमजोर वेरिएबल्स के लिए 'सेफ स्टैक' क्या है?",
+    "options_en": [
+      "Separate stack for arrays/pointers; isolates from return addresses",
+      "No safe stack",
+      "Only for arrays",
+      "Not for security"
+    ],
+    "options_hi": [
+      "ऐरे/पॉइंटर्स के लिए अलग स्टैक; रिटर्न एड्रेस से अलग करता है",
+      "कोई सुरक्षित स्टैक नहीं",
+      "केवल ऐरे के लिए",
+      "सुरक्षा के लिए नहीं"
+    ],
+    "answer_en": "Separate stack for arrays/pointers; isolates from return addresses",
+    "answer_hi": "ऐरे/पॉइंटर्स के लिए अलग स्टैक; रिटर्न एड्रेस से अलग करता है",
+    "attempted": false,
+    "selected": ""
+  },
+  {
+    "num": 71,
+    "question_en": "What is 'integer sanitizer' overflow handling?",
+    "question_hi": "'इंटीजर सैनिटाइज़र' ओवरफ्लो हैंडलिंग क्या है?",
+    "options_en": [
+      "Traps on overflow (SIGABRT), saturation, wrap-around; configurable",
+      "No handling",
+      "Only trap",
+      "Not for integers"
+    ],
+    "options_hi": [
+      "ओवरफ्लो पर ट्रैप (SIGABRT), संतृप्ति, रैप-अराउंड; विन्यास योग्य",
+      "कोई हैंडलिंग नहीं",
+      "केवल ट्रैप",
+      "पूर्णांक के लिए नहीं"
+    ],
+    "answer_en": "Traps on overflow (SIGABRT), saturation, wrap-around; configurable",
+    "answer_hi": "ओवरफ्लो पर ट्रैप (SIGABRT), संतृप्ति, रैप-अराउंड; विन्यास योग्य",
+    "attempted": false,
+    "selected": ""
+  },
+  {
+    "num": 72,
+    "question_en": "What is 'fuzzing' (AFL, libFuzzer) for C code?",
+    "question_hi": "C कोड के लिए 'फ़ज़िंग' (AFL, libFuzzer) क्या है?",
+    "options_en": [
+      "Automated testing with random inputs; coverage-guided; finds crashes",
+      "No fuzzing",
+      "Only manual",
+      "Not for C"
+    ],
+    "options_hi": [
+      "यादृच्छिक इनपुट के साथ स्वचालित परीक्षण; कवरेज-निर्देशित; क्रैश ढूंढता है",
+      "कोई फ़ज़िंग नहीं",
+      "केवल मैनुअल",
+      "C के लिए नहीं"
+    ],
+    "answer_en": "Automated testing with random inputs; coverage-guided; finds crashes",
+    "answer_hi": "यादृच्छिक इनपुट के साथ स्वचालित परीक्षण; कवरेज-निर्देशित; क्रैश ढूंढता है",
+    "attempted": false,
+    "selected": ""
+  },
+  {
+    "num": 73,
+    "question_en": "What is 'formal verification' for C (Frama-C, CBMC)?",
+    "question_hi": "C (Frama-C, CBMC) के लिए 'औपचारिक सत्यापन' क्या है?",
+    "options_en": [
+      "Mathematical proof of correctness; model checking, abstract interpretation",
+      "No verification",
+      "Only testing",
+      "Not for C"
+    ],
+    "options_hi": [
+      "शुद्धता का गणितीय प्रमाण; मॉडल जाँच, अमूर्त व्याख्या",
+      "कोई सत्यापन नहीं",
+      "केवल परीक्षण",
+      "C के लिए नहीं"
+    ],
+    "answer_en": "Mathematical proof of correctness; model checking, abstract interpretation",
+    "answer_hi": "शुद्धता का गणितीय प्रमाण; मॉडल जाँच, अमूर्त व्याख्या",
+    "attempted": false,
+    "selected": ""
+  },
+  {
+    "num": 74,
+    "question_en": "What is 'static analysis' tools (Coverity, Clang Analyzer)?",
+    "question_hi": "'स्टैटिक एनालिसिस' टूल्स (Coverity, Clang Analyzer) क्या हैं?",
+    "options_en": [
+      "Analyze source without execution; find bugs, security vulnerabilities",
+      "No analysis",
+      "Only dynamic",
+      "Not for C"
+    ],
+    "options_hi": [
+      "निष्पादन के बिना स्रोत का विश्लेषण करें; बग, सुरक्षा कमजोरियां खोजें",
+      "कोई विश्लेषण नहीं",
+      "केवल गतिशील",
+      "C के लिए नहीं"
+    ],
+    "answer_en": "Analyze source without execution; find bugs, security vulnerabilities",
+    "answer_hi": "निष्पादन के बिना स्रोत का विश्लेषण करें; बग, सुरक्षा कमजोरियां खोजें",
+    "attempted": false,
+    "selected": ""
+  },
+  {
+    "num": 75,
+    "question_en": "What is 'bounds checking' instrumentation?",
+    "question_hi": "'बाउंड्स चेकिंग' इंस्ट्रुमेंटेशन क्या है?",
+    "options_en": [
+      "Adds runtime checks for array/pointer bounds; performance overhead",
+      "No checking",
+      "Compile-time only",
+      "Not for arrays"
+    ],
+    "options_hi": [
+      "ऐरे/पॉइंटर सीमा के लिए रनटाइम जाँच जोड़ता है; प्रदर्शन ओवरहेड",
+      "कोई जाँच नहीं",
+      "केवल कंपाइल-टाइम",
+      "ऐरे के लिए नहीं"
+    ],
+    "answer_en": "Adds runtime checks for array/pointer bounds; performance overhead",
+    "answer_hi": "ऐरे/पॉइंटर सीमा के लिए रनटाइम जाँच जोड़ता है; प्रदर्शन ओवरहेड",
+    "attempted": false,
+    "selected": ""
+  },
+  {
+    "num": 76,
+    "question_en": "What is 'type qualifiers' compatibility?",
+    "question_hi": "'टाइप क्वालीफायर' संगतता क्या है?",
+    "options_en": [
+      "Adding qualifiers safe; removing requires cast; const/volatile/restrict",
+      "All compatible",
+      "No compatibility",
+      "Only const"
+    ],
+    "options_hi": [
+      "क्वालीफायर जोड़ना सुरक्षित; हटाने के लिए कास्ट की आवश्यकता; const/volatile/restrict",
+      "सभी संगत",
+      "कोई संगतता नहीं",
+      "केवल const"
+    ],
+    "answer_en": "Adding qualifiers safe; removing requires cast; const/volatile/restrict",
+    "answer_hi": "क्वालीफायर जोड़ना सुरक्षित; हटाने के लिए कास्ट की आवश्यकता; const/volatile/restrict",
+    "attempted": false,
+    "selected": ""
+  },
+  {
+    "num": 77,
+    "question_en": "What is 'composite type' construction?",
+    "question_hi": "'कम्पोजिट टाइप' निर्माण क्या है?",
+    "options_en": [
+      "Type derived from multiple types (function, array); decay rules apply",
+      "No composite",
+      "Only structs",
+      "Not in C"
+    ],
+    "options_hi": [
+      "कई प्रकारों से प्राप्त प्रकार (फ़ंक्शन, ऐरे); क्षय नियम लागू",
+      "कोई कम्पोजिट नहीं",
+      "केवल स्ट्रक्चर",
+      "C में नहीं"
+    ],
+    "answer_en": "Type derived from multiple types (function, array); decay rules apply",
+    "answer_hi": "कई प्रकारों से प्राप्त प्रकार (फ़ंक्शन, ऐरे); क्षय नियम लागू",
+    "attempted": false,
+    "selected": ""
+  },
+  {
+    "num": 78,
+    "question_en": "What is 'type compatibility' for function parameters?",
+    "question_hi": "फ़ंक्शन पैरामीटर के लिए 'टाइप कम्पेटिबिलिटी' क्या है?",
+    "options_en": [
+      "Compatible if same after adjustments (array to pointer, function to pointer)",
+      "Must match exactly",
+      "No compatibility",
+      "Only for return"
+    ],
+    "options_hi": [
+      "संगत यदि समायोजन के बाद समान (पॉइंटर को ऐरे, पॉइंटर को फ़ंक्शन)",
+      "बिल्कुल मेल खाना चाहिए",
+      "कोई संगतता नहीं",
+      "केवल रिटर्न के लिए"
+    ],
+    "answer_en": "Compatible if same after adjustments (array to pointer, function to pointer)",
+    "answer_hi": "संगत यदि समायोजन के बाद समान (पॉइंटर को ऐरे, पॉइंटर को फ़ंक्शन)",
+    "attempted": false,
+    "selected": ""
+  },
+  {
+    "num": 79,
+    "question_en": "What is 'incomplete type' uses?",
+    "question_hi": "'अपूर्ण प्रकार' उपयोग क्या हैं?",
+    "options_en": [
+      "void, unspecified array size, forward-declared struct; can't define objects",
+      "No uses",
+      "Complete only",
+      "Not in C"
+    ],
+    "options_hi": [
+      "void, अनिर्दिष्ट ऐरे आकार, फॉरवर्ड-घोषित स्ट्रक्चर; वस्तुएं परिभाषित नहीं कर सकते",
+      "कोई उपयोग नहीं",
+      "केवल पूर्ण",
+      "C में नहीं"
+    ],
+    "answer_en": "void, unspecified array size, forward-declared struct; can't define objects",
+    "answer_hi": "void, अनिर्दिष्ट ऐरे आकार, फॉरवर्ड-घोषित स्ट्रक्चर; वस्तुएं परिभाषित नहीं कर सकते",
+    "attempted": false,
+    "selected": ""
+  },
+  {
+    "num": 80,
+    "question_en": "What is 'compatible types' for tags?",
+    "question_hi": "टैग के लिए 'संगत प्रकार' क्या है?",
+    "options_en": [
+      "struct/union/enum tags compatible if same in same scope; can be redeclared",
+      "No compatibility",
+      "Always compatible",
+      "Not for tags"
+    ],
+    "options_hi": [
+      "स्ट्रक्चर/यूनियन/एनम टैग संगत यदि एक ही स्कोप में समान; पुनर्घोषित किया जा सकता है",
+      "कोई संगतता नहीं",
+      "हमेशा संगत",
+      "टैग के लिए नहीं"
+    ],
+    "answer_en": "struct/union/enum tags compatible if same in same scope; can be redeclared",
+    "answer_hi": "स्ट्रक्चर/यूनियन/एनम टैग संगत यदि एक ही स्कोप में समान; पुनर्घोषित किया जा सकता है",
+    "attempted": false,
+    "selected": ""
+  },
+  {
+    "num": 81,
+    "question_en": "What is 'alignment' requirements for atomic types?",
+    "question_hi": "परमाणु प्रकारों के लिए 'संरेखण' आवश्यकताएँ क्या हैं?",
+    "options_en": [
+      "_Atomic types may have stricter alignment than base type; implementation-defined",
+      "Same alignment",
+      "No alignment",
+      "Not for atomic"
+    ],
+    "options_hi": [
+      "_Atomic प्रकारों में आधार प्रकार की तुलना में सख्त संरेखण हो सकता है; कार्यान्वयन-परिभाषित",
+      "समान संरेखण",
+      "कोई संरेखण नहीं",
+      "परमाणु के लिए नहीं"
+    ],
+    "answer_en": "_Atomic types may have stricter alignment than base type; implementation-defined",
+    "answer_hi": "_Atomic प्रकारों में आधार प्रकार की तुलना में सख्त संरेखण हो सकता है; कार्यान्वयन-परिभाषित",
+    "attempted": false,
+    "selected": ""
+  },
+  {
+    "num": 82,
+    "question_en": "What is 'bit-precise integers' (_BitInt)?",
+    "question_hi": "'बिट-सटीक पूर्णांक' (_BitInt) क्या है?",
+    "options_en": [
+      "C23 feature for arbitrary-width integers; _BitInt(N) where 2 ≤ N ≤ supported",
+      "Not in C",
+      "Only fixed",
+      "No such type"
+    ],
+    "options_hi": [
+      "मनमानी-चौड़ाई पूर्णांक के लिए C23 सुविधा; _BitInt(N) जहां 2 ≤ N ≤ समर्थित",
+      "C में नहीं",
+      "केवल निश्चित",
+      "ऐसा कोई प्रकार नहीं"
+    ],
+    "answer_en": "C23 feature for arbitrary-width integers; _BitInt(N) where 2 ≤ N ≤ supported",
+    "answer_hi": "मनमानी-चौड़ाई पूर्णांक के लिए C23 सुविधा; _BitInt(N) जहां 2 ≤ N ≤ समर्थित",
+    "attempted": false,
+    "selected": ""
+  },
+  {
+    "num": 83,
+    "question_en": "What is 'decimal floating-point' (_Decimal32, _Decimal64)?",
+    "question_hi": "'दशमलव फ्लोटिंग-पॉइंट' (_Decimal32, _Decimal64) क्या है?",
+    "options_en": [
+      "Decimal (base-10) floating types; exact decimal representation; not widely supported",
+      "Standard float",
+      "Only binary",
+      "Not in C"
+    ],
+    "options_hi": [
+      "दशमलव (बेस-10) फ्लोटिंग प्रकार; सटीक दशमलव प्रतिनिधित्व; व्यापक रूप से समर्थित नहीं",
+      "मानक फ्लोट",
+      "केवल बाइनरी",
+      "C में नहीं"
+    ],
+    "answer_en": "Decimal (base-10) floating types; exact decimal representation; not widely supported",
+    "answer_hi": "दशमलव (बेस-10) फ्लोटिंग प्रकार; सटीक दशमलव प्रतिनिधित्व; व्यापक रूप से समर्थित नहीं",
+    "attempted": false,
+    "selected": ""
+  },
+  {
+    "num": 84,
+    "question_en": "What is 'complex numbers' (_Complex) alignment?",
+    "question_hi": "'सम्मिश्र संख्या' (_Complex) संरेखण क्या है?",
+    "options_en": [
+      "_Complex float may have different alignment than float[2]; implementation-defined",
+      "Same alignment",
+      "No alignment",
+      "Not for complex"
+    ],
+    "options_hi": [
+      "_Complex फ्लोट का फ्लोट[2] से अलग संरेखण हो सकता है; कार्यान्वयन-परिभाषित",
+      "समान संरेखण",
+      "कोई संरेखण नहीं",
+      "जटिल के लिए नहीं"
+    ],
+    "answer_en": "_Complex float may have different alignment than float[2]; implementation-defined",
+    "answer_hi": "_Complex फ्लोट का फ्लोट[2] से अलग संरेखण हो सकता है; कार्यान्वयन-परिभाषित",
+    "attempted": false,
+    "selected": ""
+  },
+  {
+    "num": 85,
+    "question_en": "What is 'null pointer' representation?",
+    "question_hi": "'नल पॉइंटर' प्रतिनिधित्व क्या है?",
+    "options_en": [
+      "All-bits-zero common but not required; (void*)0 is null pointer constant",
+      "Always zero",
+      "No representation",
+      "Not a pointer"
+    ],
+    "options_hi": [
+      "सभी-बिट्स-शून्य सामान्य लेकिन आवश्यक नहीं; (void*)0 शून्य सूचक स्थिरांक है",
+      "हमेशा शून्य",
+      "कोई प्रतिनिधित्व नहीं",
+      "पॉइंटर नहीं"
+    ],
+    "answer_en": "All-bits-zero common but not required; (void*)0 is null pointer constant",
+    "answer_hi": "सभी-बिट्स-शून्य सामान्य लेकिन आवश्यक नहीं; (void*)0 शून्य सूचक स्थिरांक है",
+    "attempted": false,
+    "selected": ""
+  },
+  {
+    "num": 86,
+    "question_en": "What is 'pointer to function' vs 'pointer to data'?",
+    "question_hi": "'फ़ंक्शन का पॉइंटर' बनाम 'डेटा का पॉइंटर' क्या है?",
+    "options_en": [
+      "Different representations; casting between may not work; separate pointer spaces",
+      "Same representation",
+      "Always convertible",
+      "No difference"
+    ],
+    "options_hi": [
+      "विभिन्न प्रतिनिधित्व; बीच में कास्टिंग काम नहीं कर सकती; अलग पॉइंटर स्पेस",
+      "समान प्रतिनिधित्व",
+      "हमेशा परिवर्तनीय",
+      "कोई अंतर नहीं"
+    ],
+    "answer_en": "Different representations; casting between may not work; separate pointer spaces",
+    "answer_hi": "विभिन्न प्रतिनिधित्व; बीच में कास्टिंग काम नहीं कर सकती; अलग पॉइंटर स्पेस",
+    "attempted": false,
+    "selected": ""
+  },
+  {
+    "num": 87,
+    "question_en": "What is 'object representation' vs 'value representation'?",
+    "question_hi": "'ऑब्जेक्ट प्रतिनिधित्व' बनाम 'मूल्य प्रतिनिधित्व' क्या है?",
+    "options_en": [
+      "Object: raw bytes; Value: meaningful bits excluding padding/trap",
+      "Same thing",
+      "Only object",
+      "Only value"
+    ],
+    "options_hi": [
+      "ऑब्जेक्ट: कच्चे बाइट्स; मूल्य: पैडिंग/ट्रैप को छोड़कर सार्थक बिट्स",
+      "एक ही बात",
+      "केवल ऑब्जेक्ट",
+      "केवल मूल्य"
+    ],
+    "answer_en": "Object: raw bytes; Value: meaningful bits excluding padding/trap",
+    "answer_hi": "ऑब्जेक्ट: कच्चे बाइट्स; मूल्य: पैडिंग/ट्रैप को छोड़कर सार्थक बिट्स",
+    "attempted": false,
+    "selected": ""
+  },
+  {
+    "num": 88,
+    "question_en": "What is 'effective type' for memcpy'd memory?",
+    "question_hi": "memcpy'd मेमोरी के लिए 'प्रभावी प्रकार' क्या है?",
+    "options_en": [
+      "memcpy doesn't set effective type; first access after determines type",
+      "memcpy sets type",
+      "No effective type",
+      "Always void"
+    ],
+    "answer_en": "memcpy doesn't set effective type; first access after determines type",
+    "answer_hi": "memcpy प्रभावी प्रकार सेट नहीं करता; पहली एक्सेस के बाद प्रकार निर्धारित करता है",
+    "attempted": false,
+    "selected": ""
+  },
+  {
+    "num": 89,
+    "question_en": "What is 'strict aliasing' and memcpy workaround?",
+    "question_hi": "'स्ट्रिक्ट एलियासिंग' और memcpy वर्कअराउंड क्या है?",
+    "options_en": [
+      "Use memcpy for type punning; compilers optimize small memcpy as move",
+      "memcpy not allowed",
+      "Only unions",
+      "No workaround"
+    ],
+    "options_hi": [
+      "टाइप पनिंग के लिए memcpy का उपयोग करें; कंपाइलर छोटे memcpy को मूव के रूप में ऑप्टिमाइज़ करते हैं",
+      "memcpy अनुमति नहीं",
+      "केवल यूनियन",
+      "कोई वर्कअराउंड नहीं"
+    ],
+    "answer_en": "Use memcpy for type punning; compilers optimize small memcpy as move",
+    "answer_hi": "टाइप पनिंग के लिए memcpy का उपयोग करें; कंपाइलर छोटे memcpy को मूव के रूप में ऑप्टिमाइज़ करते हैं",
+    "attempted": false,
+    "selected": ""
+  },
+  {
+    "num": 90,
+    "question_en": "What is 'type-generic expressions' (_Generic)?",
+    "question_hi": "'टाइप-जेनेरिक एक्सप्रेशन' (_Generic) क्या है?",
+    "options_en": [
+      "C11 feature: _Generic(expr, type1: val1, default: val) compile-time type switch",
+      "Not in C",
+      "Runtime only",
+      "No generics"
+    ],
+    "options_hi": [
+      "C11 सुविधा: _Generic(expr, type1: val1, default: val) कंपाइल-टाइम टाइप स्विच",
+      "C में नहीं",
+      "केवल रनटाइम",
+      "कोई जेनेरिक नहीं"
+    ],
+    "answer_en": "C11 feature: _Generic(expr, type1: val1, default: val) compile-time type switch",
+    "answer_hi": "C11 सुविधा: _Generic(expr, type1: val1, default: val) कंपाइल-टाइम टाइप स्विच",
+    "attempted": false,
+    "selected": ""
+  },
+  {
+    "num": 91,
+    "question_en": "What is 'static assertions' with _Static_assert?",
+    "question_hi": "_Static_assert के साथ 'स्थैतिक अभिकथन' क्या है?",
+    "options_en": [
+      "C11: _Static_assert(cond, msg) compile-time assertion; fails compilation if false",
+      "Runtime only",
+      "Not in C",
+      "No assertions"
+    ],
+    "options_hi": [
+      "C11: _Static_assert(cond, msg) कंपाइल-टाइम अभिकथन; गलत होने पर संकलन विफल",
+      "केवल रनटाइम",
+      "C में नहीं",
+      "कोई अभिकथन नहीं"
+    ],
+    "answer_en": "C11: _Static_assert(cond, msg) compile-time assertion; fails compilation if false",
+    "answer_hi": "C11: _Static_assert(cond, msg) कंपाइल-टाइम अभिकथन; गलत होने पर संकलन विफल",
+    "attempted": false,
+    "selected": ""
+  },
+  {
+    "num": 92,
+    "question_en": "What is 'anonymous structs/unions' in C11?",
+    "question_hi": "C11 में 'अनाम स्ट्रक्चर/यूनियन' क्या है?",
+    "options_en": [
+      "Struct/union without tag; members accessed directly in containing struct",
+      "Not in C",
+      "Only in C++",
+      "No anonymous"
+    ],
+    "options_hi": [
+      "टैग के बिना स्ट्रक्चर/यूनियन; सदस्यों को युक्त स्ट्रक्चर में सीधे एक्सेस किया गया",
+      "C में नहीं",
+      "केवल C++ में",
+      "कोई अनाम नहीं"
+    ],
+    "answer_en": "Struct/union without tag; members accessed directly in containing struct",
+    "answer_hi": "टैग के बिना स्ट्रक्चर/यूनियन; सदस्यों को युक्त स्ट्रक्चर में सीधे एक्सेस किया गया",
+    "attempted": false,
+    "selected": ""
+  },
+  {
+    "num": 93,
+    "question_en": "What is 'alignment specifier' _Alignas?",
+    "question_hi": "'संरेखण निर्दिष्टकर्ता' _Alignas क्या है?",
+    "options_en": [
+      "C11: _Alignas(N) or _Alignas(type) specifies alignment requirement",
+      "Not in C",
+      "Only attribute",
+      "No alignment"
+    ],
+    "options_hi": [
+      "C11: _Alignas(N) या _Alignas(type) संरेखण आवश्यकता निर्दिष्ट करता है",
+      "C में नहीं",
+      "केवल विशेषता",
+      "कोई संरेखण नहीं"
+    ],
+    "answer_en": "C11: _Alignas(N) or _Alignas(type) specifies alignment requirement",
+    "answer_hi": "C11: _Alignas(N) या _Alignas(type) संरेखण आवश्यकता निर्दिष्ट करता है",
+    "attempted": false,
+    "selected": ""
+  },
+  {
+    "num": 94,
+    "question_en": "What is 'noreturn' attribute/_Noreturn?",
+    "question_hi": "'नॉरिटर्न' विशेषता/_Noreturn क्या है?",
+    "options_en": [
+      "Function doesn't return; enables optimizations, suppresses warnings",
+      "No effect",
+      "Only for void",
+      "Not in C"
+    ],
+    "options_hi": [
+      "फ़ंक्शन वापस नहीं आता है; ऑप्टिमाइज़ेशन सक्षम करता है, चेतावनियों को दबाता है",
+      "कोई प्रभाव नहीं",
+      "केवल शून्य के लिए",
+      "C में नहीं"
+    ],
+    "answer_en": "Function doesn't return; enables optimizations, suppresses warnings",
+    "answer_hi": "फ़ंक्शन वापस नहीं आता है; ऑप्टिमाइज़ेशन सक्षम करता है, चेतावनियों को दबाता है",
+    "attempted": false,
+    "selected": ""
+  },
+  {
+    "num": 95,
+    "question_en": "What is 'threads' in C11 (thrd_t, mtx_t)?",
+    "question_hi": "C11 में 'थ्रेड्स' (thrd_t, mtx_t) क्या है?",
+    "options_en": [
+      "Standard thread API: thrd_create, mtx_lock, cnd_wait; optional feature",
+      "Not in C",
+      "Only POSIX",
+      "No threads"
+    ],
+    "options_hi": [
+      "मानक थ्रेड API: thrd_create, mtx_lock, cnd_wait; वैकल्पिक सुविधा",
+      "C में नहीं",
+      "केवल POSIX",
+      "कोई थ्रेड नहीं"
+    ],
+    "answer_en": "Standard thread API: thrd_create, mtx_lock, cnd_wait; optional feature",
+    "answer_hi": "मानक थ्रेड API: thrd_create, mtx_lock, cnd_wait; वैकल्पिक सुविधा",
+    "attempted": false,
+    "selected": ""
+  },
+  {
+    "num": 96,
+    "question_en": "What is 'atomics' in C11 (_Atomic, atomic_flag)?",
+    "question_hi": "C11 में 'एटॉमिक्स' (_Atomic, atomic_flag) क्या है?",
+    "options_en": [
+      "Standard atomic types, operations; lock-free if ATOMIC_*_LOCK_FREE",
+      "Not in C",
+      "Only GCC",
+      "No atomics"
+    ],
+    "options_hi": [
+      "मानक परमाणु प्रकार, संचालन; लॉक-मुक्त यदि ATOMIC_*_LOCK_FREE",
+      "C में नहीं",
+      "केवल GCC",
+      "कोई एटॉमिक नहीं"
+    ],
+    "answer_en": "Standard atomic types, operations; lock-free if ATOMIC_*_LOCK_FREE",
+    "answer_hi": "मानक परमाणु प्रकार, संचालन; लॉक-मुक्त यदि ATOMIC_*_LOCK_FREE",
+    "attempted": false,
+    "selected": ""
+  },
+  {
+    "num": 97,
+    "question_en": "What is 'complex numbers' in C (_Complex, _Imaginary)?",
+    "question_hi": "C में 'सम्मिश्र संख्या' (_Complex, _Imaginary) क्या है?",
+    "options_en": [
+      "Standard complex types; _Imaginary optional; operations via <complex.h>",
+      "Not in C",
+      "Only C++",
+      "No complex"
+    ],
+    "options_hi": [
+      "मानक जटिल प्रकार; _Imaginary वैकल्पिक; <complex.h> के माध्यम से संचालन",
+      "C में नहीं",
+      "केवल C++",
+      "कोई जटिल नहीं"
+    ],
+    "answer_en": "Standard complex types; _Imaginary optional; operations via <complex.h>",
+    "answer_hi": "मानक जटिल प्रकार; _Imaginary वैकल्पिक; <complex.h> के माध्यम से संचालन",
+    "attempted": false,
+    "selected": ""
+  },
+  {
+    "num": 98,
+    "question_en": "What is 'bounds-checking interfaces' Annex K?",
+    "question_hi": "'बाउंड्स-चेकिंग इंटरफेस' अनुबंध K क्या है?",
+    "options_en": [
+      "Optional secure functions: strcpy_s, scanf_s; not widely implemented",
+      "Standard C",
+      "Always available",
+      "No such annex"
+    ],
+    "options_hi": [
+      "वैकल्पिक सुरक्षित कार्य: strcpy_s, scanf_s; व्यापक रूप से लागू नहीं",
+      "मानक C",
+      "हमेशा उपलब्ध",
+      "ऐसा कोई परिशिष्ट नहीं"
+    ],
+    "answer_en": "Optional secure functions: strcpy_s, scanf_s; not widely implemented",
+    "answer_hi": "वैकल्पिक सुरक्षित कार्य: strcpy_s, scanf_s; व्यापक रूप से लागू नहीं",
+    "attempted": false,
+    "selected": ""
+  },
+  {
+    "num": 99,
+    "question_en": "What is 'freestanding implementation' features?",
+    "question_hi": "'फ्रीस्टैंडिंग कार्यान्वयन' सुविधाएँ क्या हैं?",
+    "options_en": [
+      "No standard library required; only <float.h>, <limits.h>, <stdarg.h>, <stddef.h>",
+      "Full library",
+      "No headers",
+      "Not a concept"
+    ],
+    "options_hi": [
+      "मानक लाइब्रेरी की आवश्यकता नहीं; केवल <float.h>, <limits.h>, <stdarg.h>, <stddef.h>",
+      "पूर्ण पुस्तकालय",
+      "कोई हेडर नहीं",
+      "कोई अवधारणा नहीं"
+    ],
+    "answer_en": "No standard library required; only <float.h>, <limits.h>, <stdarg.h>, <stddef.h>",
+    "answer_hi": "मानक लाइब्रेरी की आवश्यकता नहीं; केवल <float.h>, <limits.h>, <stdarg.h>, <stddef.h>",
+    "attempted": false,
+    "selected": ""
+  },
+  {
+    "num": 100,
+    "question_en": "What is 'interoperability' with other languages (C++/Rust/Assembly)?",
+    "question_hi": "अन्य भाषाओं (C++/Rust/Assembly) के साथ 'अंतरसंचालनीयता' क्या है?",
+    "options_en": [
+      "C ABI stable; extern \"C\", FFI, calling conventions, name mangling differences",
+      "No interoperability",
+      "Only C++",
+      "Same as C"
+    ],
+    "options_hi": [
+      "C ABI स्थिर; extern \"C\", FFI, कॉलिंग कन्वेंशन, नाम मैंगलिंग अंतर",
+      "कोई अंतरसंचालनीयता नहीं",
+      "केवल C++",
+      "C के समान"
+    ],
+    "answer_en": "C ABI stable; extern \"C\", FFI, calling conventions, name mangling differences",
+    "answer_hi": "C ABI स्थिर; extern \"C\", FFI, कॉलिंग कन्वेंशन, नाम मैंगलिंग अंतर",
+    "attempted": false,
+    "selected": ""
+  }
+];
 // --------------------------- GLOBAL VARS -----------------------------
 let currentQuestion = 0;
 let language = "en";
