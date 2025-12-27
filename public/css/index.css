@@ -2313,59 +2313,69 @@
       }
     }
 
-      /* ================= LIVE MARQUEE ================= */
-.live-marquee:hover .marquee-track {
-  animation-play-state: paused;
-}
-
+ /* ================= LIVE MARQUEE ================= */
 .live-marquee {
   position: relative;
   width: 100%;
-  height: 50px;
+  height: 52px;
   background: #083d5d;
   color: #ffffff;
   overflow: hidden;
   display: flex;
   align-items: center;
   z-index: 5;
-
-  padding-right: 800px;   /* 🔥 LIVE badge ke liye space */
 }
 
+/* pause on hover */
+.live-marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
 
 /* scrolling text */
 .marquee-track {
-  display: flex;
-  gap: 80px;
+  display: inline-flex;
+  align-items: center;
   white-space: nowrap;
   animation: marqueeScroll 18s linear infinite;
   padding-left: 100%;
+  padding-right: 120px; /* 🔥 LIVE badge safe space */
 }
 
 .marquee-track span {
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   font-weight: 500;
+}
+
+.marquee-track a {
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.marquee-track a:hover {
+  text-decoration: underline;
+  color: #ffdddd;
 }
 
 /* LIVE badge */
 .live-badge {
   position: absolute;
-  right: 15px;
+  right: 12px;
   top: 50%;
   transform: translateY(-50%);
-  background: rgba(181, 224, 13, 0.4);
+  background: rgba(181, 224, 13, 0.35);
   padding: 6px 14px;
   border-radius: 20px;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   font-size: 0.8rem;
   font-weight: 600;
+  pointer-events: none;
 }
 
 .live-dot {
-  width: 20px;
-  height: 20px;
+  width: 10px;
+  height: 10px;
   background: red;
   border-radius: 50%;
   animation: blink 1s infinite;
@@ -2377,26 +2387,30 @@
     transform: translateX(0);
   }
   100% {
-    transform: translateX(-80%);
+    transform: translateX(-100%);
   }
 }
 
-
 @keyframes blink {
   0% { opacity: 1; }
-  50% { opacity: 0.2; }
+  50% { opacity: 0.3; }
   100% { opacity: 1; }
 }
 
 /* ================= RESPONSIVE ================= */
 
+/* Tablet */
 @media (max-width: 768px) {
   .live-marquee {
-    height: 45px;
+    height: 46px;
   }
 
   .marquee-track span {
-    font-size: 0.8rem;
+    font-size: 0.82rem;
+  }
+
+  .marquee-track {
+    padding-right: 95px;
   }
 
   .live-badge {
@@ -2405,32 +2419,28 @@
   }
 }
 
+/* Mobile */
 @media (max-width: 480px) {
   .live-marquee {
-    height: 40px;
+    height: 42px;
   }
 
   .marquee-track span {
     font-size: 0.75rem;
   }
 
+  .marquee-track {
+    padding-right: 80px;
+  }
+
   .live-badge {
-    right: 8px;
+    right: 6px;
     padding: 4px 8px;
+    font-size: 0.65rem;
   }
 
   .live-dot {
     width: 8px;
     height: 8px;
   }
-}
-.marquee-track a {
-  color: #ffffff;
-  text-decoration: none;
-  font-weight: 500;
-}
-
-.marquee-track a:hover {
-  text-decoration: underline;
-  color: #ffdddd;
 }
