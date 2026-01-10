@@ -1,18 +1,14 @@
-require('dotenv').config();
 const express = require("express");
-const bodyParser = require("body-parser");
 const path = require("path");
 const session = require("express-session");
 const mongoose = require('mongoose');
 const passport = require("passport");
 const dotenv = require("dotenv");
-const connectDB = require("./config/db");
 const cookieParser = require("cookie-parser");
 const helmet = require('helmet');
 const MongoStore = require('connect-mongo');
 const cors = require("cors");
 const crypto = require("crypto");
-const jwt = require("jsonwebtoken");
 const fs = require("fs");
 const fileUpload = require("express-fileupload");
 
@@ -22,6 +18,10 @@ dotenv.config();
 // Initialize express app
 const app = express();
 const port = process.env.PORT || 9191;
+
+
+const http = require("http");
+const server = http.createServer(app);
 
 
 const mongoUrl = process.env.MONGODB_URI;
@@ -190,6 +190,33 @@ const configureRoutes = () => {
       next();
   });
 
+
+// Socket.IO
+const { Server } = require("socket.io");
+const io = new Server(server, {
+  cors: { origin: "*" }
+});
+
+// socket logic
+let onlineTestUsers = 0;
+io.on("connection", (socket) => {
+  onlineTestUsers++;
+  io.emit("onlineUsers", onlineTestUsers);
+
+  socket.on("disconnect", () => {
+    onlineTestUsers--;
+    io.emit("onlineUsers", onlineTestUsers);
+  });
+});
+
+// 🔥 IMPORTANT PART
+app.listen = function () {
+  return server.listen.apply(server, arguments);
+};
+
+
+
+
   // ========== RTS INTEGRATION ==========
   app.use("/RTS/public", express.static(path.join(__dirname, "RTS", "public")));
   app.use("/rts", express.static(path.join(__dirname, "RTS", "public")));
@@ -357,10 +384,21 @@ const configureRoutes = () => {
 // ========== CONFIGURE THE APPLICATION ==========
 configureMiddleware();
 configureViews();
+
+// ======= RTS AUTH ROUTES (MUST BE BEFORE 404) =======
+const signupRoutes = require("./RTS/routes/signupRoutes.js");
+const loginRoutes  = require("./RTS/routes/loginRoutes.js");
+const forgotPasswordRoutes = require("./RTS/routes/forgotPasswordRoutes.js");
+
+app.use("/api", signupRoutes);
+app.use("/api", loginRoutes);
+app.use("/api", forgotPasswordRoutes);
+
+
+// ======= MAIN ROUTES (404 is inside this) =======
 configureRoutes();
 
 // ========== START SERVER ==========
 app.listen(port, () => {
   console.log(`\n✅ Server is running on http://localhost:${port}`);
-  
 });
